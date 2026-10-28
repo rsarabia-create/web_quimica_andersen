@@ -913,3 +913,146 @@ const SVG_ASSETS = {
     </svg>
   `
 };
+
+// ==========================================================================
+// Generador Dinàmic d'Il·lustracions SVG per al Banc de 50 Activitats de Moeller
+// ==========================================================================
+function generateMoellerExerciseCardSVG(ex) {
+  const colorMap = {
+    'basic': { border: '#0284c7', bg: '#f0f9ff', text: '#0369a1', badge: 'Períodes 1-3' },
+    'dblock': { border: '#d97706', bg: '#fffbeb', text: '#b45309', badge: 'Bloc d (Transició)' },
+    'period4': { border: '#9333ea', bg: '#faf5ff', text: '#7e22ce', badge: 'Període 4' },
+    'period5': { border: '#0d9488', bg: '#f0fdfa', text: '#0f766e', badge: 'Període 5' },
+    'period6': { border: '#16a34a', bg: '#f0fdf4', text: '#15803d', badge: 'Període 6 (fins a Z=86)' }
+  };
+
+  const c = colorMap[ex.category] || { border: '#6366f1', bg: '#eef2ff', text: '#4338ca', badge: `Z = ${ex.z}` };
+  const targetSub = ex.activeSub || '1s';
+
+  // Coordenades dels orbitals al mini-diagrama de Moeller
+  const subCoords = {
+    '1s': { x: 30, y: 35, n: 1 },
+    '2s': { x: 30, y: 55, n: 2 },
+    '2p': { x: 65, y: 55, n: 2 },
+    '3s': { x: 30, y: 75, n: 3 },
+    '3p': { x: 65, y: 75, n: 3 },
+    '3d': { x: 100, y: 75, n: 3 },
+    '4s': { x: 30, y: 95, n: 4 },
+    '4p': { x: 65, y: 95, n: 4 },
+    '4d': { x: 100, y: 95, n: 4 },
+    '4f': { x: 135, y: 95, n: 4 },
+    '5s': { x: 30, y: 115, n: 5 },
+    '5p': { x: 65, y: 115, n: 5 },
+    '5d': { x: 100, y: 115, n: 5 },
+    '6s': { x: 30, y: 135, n: 6 },
+    '6p': { x: 65, y: 135, n: 6 }
+  };
+
+  const activeCoord = subCoords[targetSub] || { x: 30, y: 35, n: 1 };
+
+  return `
+    <svg viewBox="0 0 340 180" class="w-full h-auto max-h-48 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glowEx-${ex.id}" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="${c.border}" flood-opacity="0.35"/>
+        </filter>
+        <marker id="mArrSub-${ex.id}" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="${c.border}"/>
+        </marker>
+      </defs>
+
+      <!-- Fons general -->
+      <rect width="340" height="180" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+
+      <!-- Caixa de l'element esquerra -->
+      <g transform="translate(14, 15)">
+        <rect width="80" height="85" rx="12" fill="${c.bg}" stroke="${c.border}" stroke-width="2" filter="url(#glowEx-${ex.id})"/>
+        <text x="40" y="20" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="black" fill="${c.text}">Z = ${ex.z}</text>
+        <text x="40" y="52" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="28" font-weight="900" fill="#0f172a">${ex.symbol}</text>
+        <text x="40" y="73" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="${c.text}">${ex.name}</text>
+      </g>
+
+      <!-- Dades complementàries de l'element -->
+      <g transform="translate(14, 110)" font-family="sans-serif" font-size="9" fill="#64748b">
+        <rect width="80" height="55" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="40" y="16" text-anchor="middle" font-weight="bold" fill="${c.text}">${c.badge}</text>
+        <text x="40" y="32" text-anchor="middle">Període: ${ex.period || '-'}</text>
+        <text x="40" y="46" text-anchor="middle">Grup: ${ex.group || '-'}</text>
+      </g>
+
+      <!-- Panell dret: Mini Diagrama de Moeller interactiu -->
+      <g transform="translate(106, 12)">
+        <rect width="220" height="156" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+        <!-- Capçalera del mini-Moeller -->
+        <rect x="0" y="0" width="220" height="24" rx="12" fill="#f1f5f9"/>
+        <text x="110" y="16" text-anchor="middle" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#334155">
+          Diagrama de Moeller • Posició de l'orbital '${targetSub}'
+        </text>
+
+        <!-- Graella d'orbitals de Moeller simplificada -->
+        <g font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="bold" text-anchor="middle">
+          <!-- Columnes s, p, d, f -->
+          <text x="40" y="34" fill="#0284c7">s</text>
+          <text x="75" y="34" fill="#9333ea">p</text>
+          <text x="110" y="34" fill="#d97706">d</text>
+          <text x="145" y="34" fill="#059669">f</text>
+
+          <!-- 1s -->
+          <circle cx="40" cy="46" r="7.5" fill="${targetSub === '1s' ? c.border : '#e0f2fe'}" stroke="${targetSub === '1s' ? '#ffffff' : '#0284c7'}" stroke-width="${targetSub === '1s' ? '2' : '1'}"/>
+          <text x="40" y="49" fill="${targetSub === '1s' ? '#ffffff' : '#0369a1'}">1s</text>
+
+          <!-- 2s 2p -->
+          <circle cx="40" cy="64" r="7.5" fill="${targetSub === '2s' ? c.border : '#e0f2fe'}" stroke="${targetSub === '2s' ? '#ffffff' : '#0284c7'}" stroke-width="${targetSub === '2s' ? '2' : '1'}"/>
+          <text x="40" y="67" fill="${targetSub === '2s' ? '#ffffff' : '#0369a1'}">2s</text>
+          <circle cx="75" cy="64" r="7.5" fill="${targetSub === '2p' ? c.border : '#f3e8ff'}" stroke="${targetSub === '2p' ? '#ffffff' : '#9333ea'}" stroke-width="${targetSub === '2p' ? '2' : '1'}"/>
+          <text x="75" y="67" fill="${targetSub === '2p' ? '#ffffff' : '#7e22ce'}">2p</text>
+
+          <!-- 3s 3p 3d -->
+          <circle cx="40" cy="82" r="7.5" fill="${targetSub === '3s' ? c.border : '#e0f2fe'}" stroke="${targetSub === '3s' ? '#ffffff' : '#0284c7'}" stroke-width="${targetSub === '3s' ? '2' : '1'}"/>
+          <text x="40" y="85" fill="${targetSub === '3s' ? '#ffffff' : '#0369a1'}">3s</text>
+          <circle cx="75" cy="82" r="7.5" fill="${targetSub === '3p' ? c.border : '#f3e8ff'}" stroke="${targetSub === '3p' ? '#ffffff' : '#9333ea'}" stroke-width="${targetSub === '3p' ? '2' : '1'}"/>
+          <text x="75" y="85" fill="${targetSub === '3p' ? '#ffffff' : '#7e22ce'}">3p</text>
+          <circle cx="110" cy="82" r="7.5" fill="${targetSub === '3d' ? c.border : '#fef3c7'}" stroke="${targetSub === '3d' ? '#ffffff' : '#d97706'}" stroke-width="${targetSub === '3d' ? '2' : '1'}"/>
+          <text x="110" y="85" fill="${targetSub === '3d' ? '#ffffff' : '#b45309'}">3d</text>
+
+          <!-- 4s 4p 4d 4f -->
+          <circle cx="40" cy="100" r="7.5" fill="${targetSub === '4s' ? c.border : '#e0f2fe'}" stroke="${targetSub === '4s' ? '#ffffff' : '#0284c7'}" stroke-width="${targetSub === '4s' ? '2' : '1'}"/>
+          <text x="40" y="103" fill="${targetSub === '4s' ? '#ffffff' : '#0369a1'}">4s</text>
+          <circle cx="75" cy="100" r="7.5" fill="${targetSub === '4p' ? c.border : '#f3e8ff'}" stroke="${targetSub === '4p' ? '#ffffff' : '#9333ea'}" stroke-width="${targetSub === '4p' ? '2' : '1'}"/>
+          <text x="75" y="103" fill="${targetSub === '4p' ? '#ffffff' : '#7e22ce'}">4p</text>
+          <circle cx="110" cy="100" r="7.5" fill="${targetSub === '4d' ? c.border : '#fef3c7'}" stroke="${targetSub === '4d' ? '#ffffff' : '#d97706'}" stroke-width="${targetSub === '4d' ? '2' : '1'}"/>
+          <text x="110" y="103" fill="${targetSub === '4d' ? '#ffffff' : '#b45309'}">4d</text>
+          <circle cx="145" cy="100" r="7.5" fill="${targetSub === '4f' ? c.border : '#ecfdf5'}" stroke="${targetSub === '4f' ? '#ffffff' : '#059669'}" stroke-width="${targetSub === '4f' ? '2' : '1'}"/>
+          <text x="145" y="103" fill="${targetSub === '4f' ? '#ffffff' : '#047857'}">4f</text>
+
+          <!-- 5s 5p 5d -->
+          <circle cx="40" cy="118" r="7.5" fill="${targetSub === '5s' ? c.border : '#e0f2fe'}" stroke="${targetSub === '5s' ? '#ffffff' : '#0284c7'}" stroke-width="${targetSub === '5s' ? '2' : '1'}"/>
+          <text x="40" y="121" fill="${targetSub === '5s' ? '#ffffff' : '#0369a1'}">5s</text>
+          <circle cx="75" cy="118" r="7.5" fill="${targetSub === '5p' ? c.border : '#f3e8ff'}" stroke="${targetSub === '5p' ? '#ffffff' : '#9333ea'}" stroke-width="${targetSub === '5p' ? '2' : '1'}"/>
+          <text x="75" y="121" fill="${targetSub === '5p' ? '#ffffff' : '#7e22ce'}">5p</text>
+          <circle cx="110" cy="118" r="7.5" fill="${targetSub === '5d' ? c.border : '#fef3c7'}" stroke="${targetSub === '5d' ? '#ffffff' : '#d97706'}" stroke-width="${targetSub === '5d' ? '2' : '1'}"/>
+          <text x="110" y="121" fill="${targetSub === '5d' ? '#ffffff' : '#b45309'}">5d</text>
+
+          <!-- 6s 6p -->
+          <circle cx="40" cy="136" r="7.5" fill="${targetSub === '6s' ? c.border : '#e0f2fe'}" stroke="${targetSub === '6s' ? '#ffffff' : '#0284c7'}" stroke-width="${targetSub === '6s' ? '2' : '1'}"/>
+          <text x="40" y="139" fill="${targetSub === '6s' ? '#ffffff' : '#0369a1'}">6s</text>
+          <circle cx="75" cy="136" r="7.5" fill="${targetSub === '6p' ? c.border : '#f3e8ff'}" stroke="${targetSub === '6p' ? '#ffffff' : '#9333ea'}" stroke-width="${targetSub === '6p' ? '2' : '1'}"/>
+          <text x="75" y="139" fill="${targetSub === '6p' ? '#ffffff' : '#7e22ce'}">6p</text>
+        </g>
+
+        <!-- Fletxa de Moeller diagonal activa -->
+        <line x1="180" y1="40" x2="25" y2="145" stroke="${c.border}" stroke-width="2.5" stroke-dasharray="3 2" marker-end="url(#mArrSub-${ex.id})"/>
+
+        <!-- Fletxa indicadora cap a l'orbital objectiu -->
+        <circle cx="185" cy="85" r="22" fill="${c.bg}" stroke="${c.border}" stroke-width="1.5"/>
+        <text x="185" y="80" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="900" fill="${c.text}">${targetSub}</text>
+        <text x="185" y="94" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#64748b">Z = ${ex.z}</text>
+
+        <!-- Peu informatiu de l'exercici -->
+        <text x="110" y="150" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="bold" fill="${c.text}">
+          Activitat ${ex.id} de 50 • Fita: ${ex.name} (${ex.symbol})
+        </text>
+      </g>
+    </svg>
+  `;
+}

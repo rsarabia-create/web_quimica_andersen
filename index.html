@@ -584,19 +584,31 @@
 
       <!-- 5. Banc d'Exercicis de Configuració amb Diagrama de Moeller (fins a Z = 86) -->
       <div>
-        <div class="flex items-center justify-between mb-6 flex-wrap gap-2">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
           <div>
             <div class="flex items-center gap-2">
-              <h3 class="text-2xl font-black text-slate-900">Exercicis de Configuració amb Diagrama de Moeller</h3>
-              <span class="text-xs font-black uppercase tracking-wider px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-md">Fins a Z = 86</span>
+              <h3 class="text-2xl font-black text-slate-900">Banc de 50 Activitats amb Diagrama de Moeller</h3>
+              <span class="text-xs font-black uppercase tracking-wider px-2.5 py-0.5 bg-indigo-100 text-indigo-800 rounded-md">50 Activitats • Z = 1 fins a 86</span>
             </div>
-            <p class="text-xs text-slate-500 mt-0.5">Resol cada exercici guiant-te pel diagrama de Moeller i les seves diagonals integrades a la imatge!</p>
+            <p class="text-xs text-slate-500 mt-0.5">Resol cadascuna de les 50 activitats guiant-te per la imatge dedicada amb el diagrama de Moeller i la posició exacta de l'orbital!</p>
           </div>
           <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
-            📊 Diagrama Moeller a cada repte
+            📊 Imatge de Moeller a cadascun dels 50 reptes
           </span>
         </div>
+
+        <!-- Controls de filtratge, cerca i progrés -->
+        <div id="moeller-controls-container" class="space-y-4 mb-6">
+          <!-- Renderitzat per app.js -->
+        </div>
+
+        <!-- Graella de targetes d'activitats -->
         <div id="moeller-exercises-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Renderitzat per app.js -->
+        </div>
+
+        <!-- Paginador de navegació -->
+        <div id="moeller-pagination-container" class="mt-8">
           <!-- Renderitzat per app.js -->
         </div>
       </div>
@@ -963,6 +975,7 @@
 
   <!-- Carregar Dades i Scripts -->
   <script src="elements86.js"></script>
+  <script src="moeller50-data.js"></script>
   <script src="svg-assets.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
