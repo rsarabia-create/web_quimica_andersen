@@ -16,63 +16,46 @@ Pots obrir la web directament en qualsevol navegador (Chrome, Edge, Firefox, Saf
 
 ---
 
-## ⚛️ Noves Seccions i Continguts Afegits
+## ⚛️ Novetats i Ampliació de Configuració Electrònica (fins a Z = 86)
 
-### 1. 📜 Llicències de Drets d'Autor i Crèdits Pedagògics
-- **Llicència Educativa Creative Commons (CC BY-NC-SA 4.0)**: Permet a docents i alumnes descarregar, compartir, projectar i adaptar el material lliurement per a finalitats escolars sense cap cost.
-- **Llicència de Codi Font**: MIT License per al codi obert del projecte.
-- Modal interactiu accessible des de la capçalera (`📜 Llicència CC`) i peu de pàgina amb termes detallats i citació curricular.
+### 1. 📊 Diagrama de Moeller Complet (fins a Z = 86)
+- Diagrama complet de les diagonals de Moeller cobrint tots els nivells fins a $n = 7$:
+  - $1s^2 \rightarrow 2s^2 \rightarrow 2p^6 \rightarrow 3s^2 \rightarrow 3p^6 \rightarrow 4s^2 \rightarrow 3d^{10} \rightarrow 4p^6 \rightarrow 5s^2 \rightarrow 4d^{10} \rightarrow 5p^6 \rightarrow 6s^2 \rightarrow 4f^{14} \rightarrow 5d^{10} \rightarrow 6p^6$
+- Indicació visual de tots els gasos nobles fita:
+  - $[He] = 2$
+  - $[Ne] = 10$
+  - $[Ar] = 18$
+  - $[Kr] = 36$
+  - $[Xe] = 54$
+  - $[Rn] = 86$ (Radó, tancament del període 6)
 
-### 2. ⚛️ Models Atòmics i Orbitals Electrònics
-- **Cronologia dels 5 Models Històrics** (amb il·lustració vectorial a cadascun):
-  - **Dalton (1808)**: Esfera massissa i indivisible.
-  - **Thomson (1897)**: Púding de panses i descobriment de l'electró (raigs catòdics).
-  - **Rutherford (1911)**: Experiment de la làmina d'or, nucli positiu diminut i escorça buida.
-  - **Bohr (1913)**: Òrbites quantitzades d'energia i emissió de fotons (salts quàntics).
-  - **Model Mecanocuàntic (Actual)**: Schrödinger i Heisenberg, orbitals com a núvols de probabilitat.
-- **Orbitals ($s, p, d, f$) i Diagrama de Moeller**:
-  - Forma dels orbitals: esfèric ($s$), bilobular ($p_x, p_y, p_z$), tetralobular ($d$).
-  - Capacitats màximes: $s$ (2), $p$ (6), $d$ (10), $f$ (14).
-  - Regles d'Aufbau, Principi d'exclusió de Pauli i Regla de Hund.
-- **Calculadora Interactiva de Configuració Electrònica**:
-  - Introdueix el nombre atòmic $Z$ (1 a 30) o selecciona elements clau ($H, C, N, O, Na, Mg, Al, Cl, Fe$).
-  - Mostra la configuració ($1s^2 2s^2 2p^6...$), els electrons de valència i com determinen la valència química en la formulació!
-- **Banc d'Exercicis d'Atòmica AMB IMATGE A CADA EXERCICI**:
-  - Exercici 1: Experiment de la làmina d'or de Rutherford *(amb gràfic SVG)*.
-  - Exercici 2: El salt quàntic de Bohr i emissió de fotó *(amb gràfic SVG)*.
-  - Exercici 3: Orbitals $p_x, p_y, p_z$ en els tres eixos *(amb gràfic SVG)*.
-  - Exercici 4: Configuració del Clor $Z=17$ i electrons de valència *(amb gràfic SVG)*.
-  - Exercici 5: Descobriment de l'electró per Thomson *(amb gràfic SVG)*.
-  - Exercici 6: Regla de Hund a les caixes d'orbitals *(amb gràfic SVG)*.
+### 2. 🎮 Entrenador Interactiu de Moeller (Pas a Pas)
+- **Taller pràctic d'ompliment d'orbitals**: L'estudiant pot seleccionar qualsevol element o triar-ne d'emblemàtics ($Z=17$ Cl, $Z=26$ Fe, $Z=35$ Br, $Z=47$ Ag, $Z=56$ Ba, $Z=79$ Au, $Z=82$ Pb, $Z=86$ Rn) o generar-ne un a l'atzar fins a $Z = 86$.
+- **Suport visual en temps real**:
+  - El diagrama de Moeller es mostra al costat dels exercicis.
+  - Els orbitals s'omplen fent clic seguint les fletxes diagonals.
+  - Si l'alumne s'equivoca d'ordre, el sistema li indica amablement quin orbital corresponia segons la diagonal.
+  - En completar l'element es reprodueix una fanfara d'èxit i es mostra el desglossament complet.
 
-### 3. 🛟 Apartat de Reforç (Suport Pas a Pas)
-- **Els 5 Errors d'Examen Més Típics de 3r d'ESO**:
-  1. Posar nombres romans a elements de valència única ($Al(III), Na(I)$ ➔ Mai!).
-  2. Oblidar simplificar la fórmula química ($Ca_2O_2 \rightarrow CaO$).
-  3. Invertir l'ordre dels elements ($ClNa$ en lloc de $NaCl$).
-  4. Barrejar prefixos amb nombres de Stock en una mateixa frase.
-  5. Inventar terminacions en *-ur* per a l'oxigen.
-- **Exercicis Guiats de Reforç AMB IMATGE A CADA EXERCICI**:
-  - Exercici Reforç 1: Balança de càrregues elèctriques a l'òxid de calci *(amb il·lustració SVG)*.
-  - Exercici Reforç 2: Distingir valències entre $FeCl_2$ i $FeCl_3$ *(amb il·lustració SVG)*.
-  - Exercici Reforç 3: Identificar l'error a "Òxid de sodi(I)" *(amb il·lustració SVG)*.
-  - Exercici Reforç 4: Càlcul de la valència del plom a $PbO_2$ *(amb il·lustració SVG)*.
+### 3. 📝 Banc d'Exercicis de Configuració amb Diagrama de Moeller Integrat
+Cada exercici incorpora a la seva pròpia imatge el diagrama de Moeller amb el camí diagonal ressaltat:
+- 🖼️ **Ex. 1**: Brom ($Z=35$) — Càlcul dels 7 electrons de valència al nivell $n=4$ ($4s^2 3d^{10} 4p^5$).
+- 🖼️ **Ex. 2**: Plata ($Z=47$) — Notació abreujada $[Kr]\, 5s^1 4d^{10}$ i estabilitat del subnivell $d$ complet.
+- 🖼️ **Ex. 3**: Bari ($Z=56$) — La 6a diagonal de Moeller i el pas directe de $5p^6$ cap a $6s^2$.
+- 🖼️ **Ex. 4**: Or ($Z=79$) — Entrada del subnivell $4f^{14}$ dels lantanoides.
+- 🖼️ **Ex. 5**: Plom ($Z=82$) — Deducció de les valències +2 i +4 a partir dels 4 electrons de la capa de valència ($6s^2 6p^2$).
+- 🖼️ **Ex. 6**: Radó ($Z=86$) — Tancament del període 6 amb l'octet noble $6s^2 6p^6$.
 
-### 4. 🚀 Apartat d'Ampliació (Pont cap a 4t d'ESO)
-- **Noves Famílies Químiques**:
-  - **Hidròxids (Bases)**: Metall + grup $(OH)^-$, com $NaOH, Ca(OH)_2, Fe(OH)_3$.
-  - **Peròxids**: Enllaç peroxo $-O-O-$ on l'oxigen val $-1$, com l'aigua oxigenada ($H_2O_2$).
-  - **Introducció a Oxoàcids i Oxisals**: $H_2SO_4$ (àcid sulfúric), $HNO_3$ (àcid nítric), $CaCO_3$ (carbonat de calci).
-- **Reptes d'Ampliació AMB IMATGE A CADA EXERCICI**:
-  - Exercici Ampliació 1: Formulació de la llet de magnèsia $Mg(OH)_2$ *(amb il·lustració SVG)*.
-  - Exercici Ampliació 2: Per què $H_2O_2$ mai no es simplifica a $HO$ *(amb il·lustració SVG)*.
-  - Exercici Ampliació 3: Càlcul de l'estat d'oxidació del sofre a $H_2SO_4$ *(amb il·lustració SVG)*.
-  - Exercici Ampliació 4: El carbonat de calci $CaCO_3$ a la natura *(amb il·lustració SVG)*.
+### 4. 🧮 Calculadora de Configuracions Electròniques Ampliada a Z = 86
+- Slider interactiu i camp numèric per a qualsevol element des de $Z = 1$ fins a $Z = 86$.
+- Generació instantània de:
+  - Configuració electrònica completa.
+  - Notació abreujada amb gas noble ($[He], [Ne], [Ar], [Kr], [Xe], [Rn]$).
+  - Distribució d'electrons per capes quàntiques ($K, L, M, N, O, P$).
+  - Deducció didàctica per a la formulació inorgànica (per què té les valències que té).
 
 ---
 
-## 🎨 Gràfics i Imatges 100% Autònoms
-Totes les il·lustracions i esquemes científics estan creats en format vectorial **SVG pur** al fitxer `svg-assets.js`. Això garanteix:
-- Càrrega instantània i resolució nítida en qualsevol pantalla (mòbil, tauleta o projector).
-- Funcionament **completament offline** sense dependre de servidors externs d'imatges.
-- Totes les preguntes i exercicis de reforç, ampliació i atòmica incorporen la seva pròpia imatge visual.
+## 📜 Llicències i Crèdits
+- **Llicència Educativa Creative Commons (CC BY-NC-SA 4.0)**: Ús lliure i gratuït per a centres educatius i aules de Catalunya.
+- **Llicència MIT**: Codi obert per al programari.

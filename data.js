@@ -536,6 +536,123 @@ const CHEMISTRY_DATA = {
   ],
 
   // ========================================================================
+  // SUBNIVELLS DE MOELLER FINS A Z = 86 (Radó)
+  // ========================================================================
+  moellerSubshells: [
+    { id: '1s', n: 1, l: 's', max: 2, cumulative: 2, nobleGas: 'He' },
+    { id: '2s', n: 2, l: 's', max: 2, cumulative: 4 },
+    { id: '2p', n: 2, l: 'p', max: 6, cumulative: 10, nobleGas: 'Ne' },
+    { id: '3s', n: 3, l: 's', max: 2, cumulative: 12 },
+    { id: '3p', n: 3, l: 'p', max: 6, cumulative: 18, nobleGas: 'Ar' },
+    { id: '4s', n: 4, l: 's', max: 2, cumulative: 20 },
+    { id: '3d', n: 3, l: 'd', max: 10, cumulative: 30 },
+    { id: '4p', n: 4, l: 'p', max: 6, cumulative: 36, nobleGas: 'Kr' },
+    { id: '5s', n: 5, l: 's', max: 2, cumulative: 38 },
+    { id: '4d', n: 4, l: 'd', max: 10, cumulative: 48 },
+    { id: '5p', n: 5, l: 'p', max: 6, cumulative: 54, nobleGas: 'Xe' },
+    { id: '6s', n: 6, l: 's', max: 2, cumulative: 56 },
+    { id: '4f', n: 4, l: 'f', max: 14, cumulative: 70 },
+    { id: '5d', n: 5, l: 'd', max: 10, cumulative: 80 },
+    { id: '6p', n: 6, l: 'p', max: 6, cumulative: 86, nobleGas: 'Rn' }
+  ],
+
+  // ========================================================================
+  // BANC D'EXERCICIS DE CONFIGURACIÓ ELECTRÒNICA AMB DIAGRAMA DE MOELLER (FINS A Z = 86)
+  // ========================================================================
+  moellerExercises: [
+    {
+      id: 'moeller-1',
+      title: 'Brom (Z = 35) - Càlcul de València amb Moeller',
+      element: 'Brom (Br, Z = 35)',
+      imageKey: 'exMoellerBromine',
+      question: 'Seguint el diagrama de Moeller, quina és la configuració electrònica completa del Brom (Z = 35) i quants electrons té a la capa de valència?',
+      options: [
+        '1s² 2s² 2p⁶ 3s² 3p⁶ 4s² 3d¹⁰ 4p⁵ (7 electrons de valència al nivell n = 4)',
+        '1s² 2s² 2p⁶ 3s² 3p⁶ 3d¹⁰ 4s⁵ (5 electrons de valència)',
+        '1s² 2s² 2p⁶ 3s² 3p⁶ 4s² 4p¹⁵ (17 electrons de valència)',
+        '[Ar] 4s² 4d¹⁰ 4p⁵ (15 electrons de valència)'
+      ],
+      correctIndex: 0,
+      explanation: 'Segons Moeller, després de 3p⁶ s\'omple el 4s², després el 3d¹⁰ i finalment el 4p⁵. Els electrons de valència són els del nivell més alt (n = 4): 4s² + 4p⁵ = 7 electrons. Com que és un halogen, només necessita guanyar 1 e⁻ per completar l\'octet i actua amb valència -1 com a bromur (Br⁻)!'
+    },
+    {
+      id: 'moeller-2',
+      title: 'Plata (Z = 47) - Notació Abreviada i Bloc d',
+      element: 'Plata (Ag, Z = 47)',
+      imageKey: 'exMoellerSilver',
+      question: 'Per al metall de transició Plata (Z = 47), quina és la seva configuració abreujada amb el gas noble precedent (Criptó, Z = 36) seguint el diagrama de Moeller?',
+      options: [
+        '[Kr] 5s¹ 4d¹⁰ (subnivell d complet de màxima estabilitat)',
+        '[Ar] 4s² 3d¹⁰ 4p⁶ 5s⁹',
+        '[Xe] 5s² 4d⁹',
+        '[Kr] 4d¹¹'
+      ],
+      correctIndex: 0,
+      explanation: 'El Criptó [Kr] compta els primers 36 electrons. Segons Moeller, els 11 electrons restants van als subnivells 5s i 4d. Com que un subnivell d completament ple (4d¹⁰) confereix una estabilitat quàntica excepcional, un electró del 5s passa al 4d quedant en [Kr] 5s¹ 4d¹⁰!'
+    },
+    {
+      id: 'moeller-3',
+      title: 'Bari (Z = 56) - La 6a Diagonal de Moeller',
+      element: 'Bari (Ba, Z = 56)',
+      imageKey: 'exMoellerBarium',
+      question: 'En el diagrama de Moeller, quan s\'ha omplert l\'orbital 5p⁶ (que arriba al Xenó, Z = 54), quin és el següent orbital que s\'omple per al Bari (Z = 56)?',
+      options: [
+        'L\'orbital 6s (omplint-se com a 6s²)',
+        'L\'orbital 4f (omplint-se com a 4f²)',
+        'L\'orbital 5d (omplint-se com a 5d²)',
+        'L\'orbital 6p (omplint-se com a 6p²)'
+      ],
+      correctIndex: 0,
+      explanation: 'Molt important a Moeller! La 6a fletxa diagonal passa per 4d ➔ 5p ➔ 6s. Per tant, immediatament després de 5p⁶ s\'omple el 6s², donant [Xe] 6s². Com que té 2 electrons a l\'últim nivell (n = 6), el bari és un metall alcalinoterri (grup 2) amb valència fixa +2 (Ba²⁺)!'
+    },
+    {
+      id: 'moeller-4',
+      title: 'Or (Z = 79) - Entrada del Subnivell 4f',
+      element: 'Or (Au, Z = 79)',
+      imageKey: 'exMoellerGold',
+      question: 'L\'àtom d\'Or té número atòmic Z = 79. Quants electrons té allotjats en el subnivell 4f que s\'omple segons la 7a diagonal de Moeller?',
+      options: [
+        '14 electrons (el subnivell 4f està completament ple: 4f¹⁴)',
+        '10 electrons (el subnivell només allotja 4f¹⁰)',
+        'Cap electró, perquè l\'or no arriba a omplir els orbitals f',
+        '7 electrons (4f⁷)'
+      ],
+      correctIndex: 0,
+      explanation: 'A la 7a diagonal de Moeller, després de 6s s\'entra al bloc dels lantanoides omplint completament el subnivell 4f amb els seus 14 electrons (4f¹⁴). Després s\'omple el 5d. Per tant, la configuració de l\'Or és [Xe] 6s¹ 4f¹⁴ 5d¹⁰ (54 + 1 + 14 + 10 = 79 electrons)!'
+    },
+    {
+      id: 'moeller-5',
+      title: 'Plom (Z = 82) - Deducció de les Valències +2 i +4',
+      element: 'Plom (Pb, Z = 82)',
+      imageKey: 'exMoellerLead',
+      question: 'El plom té Z = 82 ([Xe] 6s² 4f¹⁴ 5d¹⁰ 6p²). Quants electrons té a la seva capa de valència (el nivell més extern, n = 6) i quines són les seves valències típiques?',
+      options: [
+        '4 electrons de valència (6s² + 6p²), per això té valències +2 i +4',
+        '14 electrons de valència (els de l\'orbital 4f¹⁴)',
+        '2 electrons de valència (només els de l\'orbital 6p²)',
+        '10 electrons de valència (els de l\'orbital 5d¹⁰)'
+      ],
+      correctIndex: 0,
+      explanation: 'La capa de valència és el nivell quàntic principal més alt, que aquí és n = 6: 6s² + 6p² = 4 electrons de valència. En reaccionar, pot perdre els 2 electrons p (valència +2, com a PbO) o tots 4 electrons s i p (valència +4, com a PbO₂). La connexió entre Moeller i la formulació és total!'
+    },
+    {
+      id: 'moeller-6',
+      title: 'Radó (Z = 86) - El Tancament del Període 6',
+      element: 'Radó (Rn, Z = 86)',
+      imageKey: 'exMoellerRadon',
+      question: 'El Radó (Z = 86) és l\'últim element del període 6. Quina és la seva configuració electrònica completa i per què és un gas noble?',
+      options: [
+        '[Xe] 6s² 4f¹⁴ 5d¹⁰ 6p⁶, perquè té l\'última capa n = 6 amb 8 electrons completant l\'octet',
+        '[Xe] 6s² 5d¹⁰ 6p⁴ amb 6 electrons de valència',
+        '[Kr] 5s² 4d¹⁰ 5p⁶ 6s² 6p⁶',
+        '[Xe] 4f¹⁴ 5d¹⁰ 6d⁸'
+      ],
+      correctIndex: 0,
+      explanation: 'Exacte! El radó (Z = 86) omple completament l\'orbital 6p amb 6 electrons. La seva capa externa n = 6 té 6s² 6p⁶ = 8 electrons (octet complet). En completar la 7a diagonal de Moeller, tanca el període 6 amb la màxima estabilitat com a gas noble!'
+    }
+  ],
+
+  // ========================================================================
   // APARTAT DE REFORÇ (Per a alumnes que tenen dificultats a 3r d'ESO)
   // ========================================================================
   reinforcement: {

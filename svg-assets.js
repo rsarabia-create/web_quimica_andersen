@@ -185,66 +185,127 @@ const SVG_ASSETS = {
     </svg>
   `,
 
-  // Diagrama de Moeller
+  // Diagrama de Moeller Complet (Fins a n=7, cobrint fins a Z = 86 Radó i més enllà)
   moellerDiagram: `
-    <svg viewBox="0 0 340 260" class="w-full max-w-sm h-auto mx-auto" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 380 340" class="w-full max-w-md h-auto mx-auto" xmlns="http://www.w3.org/2000/svg">
       <style>
-        .m-sub { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: bold; fill: #1e293b; text-anchor: middle; }
-        .m-arrow { stroke: #0284c7; stroke-width: 2; stroke-dasharray: 4 3; marker-end: url(#mArr); }
+        .m-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: bold; fill: #1e293b; text-anchor: middle; dominant-baseline: central; }
+        .m-arrow { stroke: #0284c7; stroke-width: 2.2; stroke-dasharray: 4 3; marker-end: url(#mArr86); }
+        .m-badge { font-family: sans-serif; font-size: 9px; font-weight: bold; fill: #0369a1; }
       </style>
       <defs>
-        <marker id="mArr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <marker id="mArr86" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
           <path d="M 0 1 L 9 5 L 0 9 z" fill="#0284c7"/>
         </marker>
+        <filter id="glowSub" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#0284c7" flood-opacity="0.15"/>
+        </filter>
       </defs>
-      <!-- Nivells verticals n=1..6 -->
-      <g fill="#64748b" font-family="sans-serif" font-size="10" font-weight="bold">
-        <text x="15" y="35">n=1</text>
-        <text x="15" y="75">n=2</text>
-        <text x="15" y="115">n=3</text>
-        <text x="15" y="155">n=4</text>
-        <text x="15" y="195">n=5</text>
-        <text x="15" y="235">n=6</text>
+
+      <!-- Fons suau -->
+      <rect width="380" height="340" rx="16" fill="#f8fafc" />
+
+      <!-- Capçaleres de columnes (subnivells s, p, d, f) -->
+      <g font-family="sans-serif" font-size="11" font-weight="900" text-anchor="middle">
+        <text x="65" y="20" fill="#0284c7">s (2)</text>
+        <text x="135" y="20" fill="#9333ea">p (6)</text>
+        <text x="205" y="20" fill="#d97706">d (10)</text>
+        <text x="275" y="20" fill="#059669">f (14)</text>
       </g>
-      <!-- Orbitals -->
-      <circle cx="65" cy="30" r="16" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
-      <text x="65" y="35" class="m-sub">1s</text>
 
-      <circle cx="65" cy="70" r="16" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
-      <text x="65" y="75" class="m-sub">2s</text>
-      <circle cx="130" cy="70" r="16" fill="#f3e8ff" stroke="#9333ea" stroke-width="1.5"/>
-      <text x="130" y="75" class="m-sub">2p</text>
+      <!-- Nivells verticals n=1..7 -->
+      <g fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold">
+        <text x="12" y="45">n=1</text>
+        <text x="12" y="85">n=2</text>
+        <text x="12" y="125">n=3</text>
+        <text x="12" y="165">n=4</text>
+        <text x="12" y="205">n=5</text>
+        <text x="12" y="245">n=6</text>
+        <text x="12" y="285">n=7</text>
+      </g>
 
-      <circle cx="65" cy="110" r="16" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
-      <text x="65" y="115" class="m-sub">3s</text>
-      <circle cx="130" cy="110" r="16" fill="#f3e8ff" stroke="#9333ea" stroke-width="1.5"/>
-      <text x="130" y="115" class="m-sub">3p</text>
-      <circle cx="195" cy="110" r="16" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
-      <text x="195" y="115" class="m-sub">3d</text>
+      <!-- Fletxes Diagonals d'Aufbau (creuant els orbitals fins a Z = 86) -->
+      <!-- Diag 1: 1s -->
+      <line x1="85" y1="25" x2="45" y2="65" class="m-arrow" />
+      <!-- Diag 2: 2s -->
+      <line x1="85" y1="65" x2="45" y2="105" class="m-arrow" />
+      <!-- Diag 3: 2p -> 3s -->
+      <line x1="155" y1="65" x2="45" y2="145" class="m-arrow" />
+      <!-- Diag 4: 3p -> 4s -->
+      <line x1="155" y1="105" x2="45" y2="185" class="m-arrow" />
+      <!-- Diag 5: 3d -> 4p -> 5s -->
+      <line x1="225" y1="105" x2="45" y2="225" class="m-arrow" />
+      <!-- Diag 6: 4d -> 5p -> 6s (Z=56 Ba) -->
+      <line x1="225" y1="145" x2="45" y2="265" class="m-arrow" />
+      <!-- Diag 7: 4f -> 5d -> 6p (Z=86 Rn!) -> 7s -->
+      <line x1="295" y1="145" x2="45" y2="305" class="m-arrow" stroke="#059669" stroke-width="2.5" />
+      <!-- Diag 8: 5f -> 6d -> 7p -->
+      <line x1="295" y1="185" x2="115" y2="305" class="m-arrow" opacity="0.4" />
 
-      <circle cx="65" cy="150" r="16" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
-      <text x="65" y="155" class="m-sub">4s</text>
-      <circle cx="130" cy="150" r="16" fill="#f3e8ff" stroke="#9333ea" stroke-width="1.5"/>
-      <text x="130" y="155" class="m-sub">4p</text>
-      <circle cx="195" cy="150" r="16" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
-      <text x="195" y="155" class="m-sub">4d</text>
-      <circle cx="260" cy="150" r="16" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
-      <text x="260" y="155" class="m-sub">4f</text>
+      <!-- ORBITALS (CERCLES AMB IDENTIFICADOR) -->
+      <!-- n=1 -->
+      <circle cx="65" cy="45" r="15" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.8" filter="url(#glowSub)"/>
+      <text x="65" y="45" class="m-sub">1s</text>
+      <text x="88" y="47" class="m-badge">[He]=2</text>
 
-      <circle cx="65" cy="190" r="16" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
-      <text x="65" y="195" class="m-sub">5s</text>
-      <circle cx="130" cy="190" r="16" fill="#f3e8ff" stroke="#9333ea" stroke-width="1.5"/>
-      <text x="130" y="195" class="m-sub">5p</text>
-      <circle cx="195" cy="190" r="16" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
-      <text x="195" y="195" class="m-sub">5d</text>
+      <!-- n=2 -->
+      <circle cx="65" cy="85" r="15" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.8"/>
+      <text x="65" y="85" class="m-sub">2s</text>
+      <circle cx="135" cy="85" r="15" fill="#f3e8ff" stroke="#9333ea" stroke-width="1.8"/>
+      <text x="135" y="85" class="m-sub">2p</text>
+      <text x="158" y="87" class="m-badge">[Ne]=10</text>
 
-      <!-- Fletxes Diagonals de Moeller -->
-      <line x1="85" y1="15" x2="45" y2="45" class="m-arrow" />
-      <line x1="95" y1="45" x2="45" y2="85" class="m-arrow" />
-      <line x1="155" y1="55" x2="45" y2="125" class="m-arrow" />
-      <line x1="160" y1="95" x2="45" y2="165" class="m-arrow" />
-      <line x1="225" y1="95" x2="45" y2="205" class="m-arrow" />
-      <line x1="225" y1="135" x2="110" y2="205" class="m-arrow" />
+      <!-- n=3 -->
+      <circle cx="65" cy="125" r="15" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.8"/>
+      <text x="65" y="125" class="m-sub">3s</text>
+      <circle cx="135" cy="125" r="15" fill="#f3e8ff" stroke="#9333ea" stroke-width="1.8"/>
+      <text x="135" y="125" class="m-sub">3p</text>
+      <text x="158" y="127" class="m-badge">[Ar]=18</text>
+      <circle cx="205" cy="125" r="15" fill="#fef3c7" stroke="#d97706" stroke-width="1.8"/>
+      <text x="205" y="125" class="m-sub">3d</text>
+
+      <!-- n=4 -->
+      <circle cx="65" cy="165" r="15" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.8"/>
+      <text x="65" y="165" class="m-sub">4s</text>
+      <circle cx="135" cy="165" r="15" fill="#f3e8ff" stroke="#9333ea" stroke-width="1.8"/>
+      <text x="135" y="165" class="m-sub">4p</text>
+      <text x="158" y="167" class="m-badge">[Kr]=36</text>
+      <circle cx="205" cy="165" r="15" fill="#fef3c7" stroke="#d97706" stroke-width="1.8"/>
+      <text x="205" y="165" class="m-sub">4d</text>
+      <circle cx="275" cy="165" r="15" fill="#ecfdf5" stroke="#059669" stroke-width="2.2"/>
+      <text x="275" y="165" class="m-sub" fill="#047857">4f</text>
+
+      <!-- n=5 -->
+      <circle cx="65" cy="205" r="15" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.8"/>
+      <text x="65" y="205" class="m-sub">5s</text>
+      <circle cx="135" cy="205" r="15" fill="#f3e8ff" stroke="#9333ea" stroke-width="1.8"/>
+      <text x="135" y="205" class="m-sub">5p</text>
+      <text x="158" y="207" class="m-badge">[Xe]=54</text>
+      <circle cx="205" cy="205" r="15" fill="#fef3c7" stroke="#d97706" stroke-width="1.8"/>
+      <text x="205" y="205" class="m-sub">5d</text>
+      <circle cx="275" cy="205" r="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+      <text x="275" y="205" class="m-sub" fill="#64748b">5f</text>
+
+      <!-- n=6 -->
+      <circle cx="65" cy="245" r="15" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.8"/>
+      <text x="65" y="245" class="m-sub">6s</text>
+      <circle cx="135" cy="245" r="15" fill="#dcfce7" stroke="#16a34a" stroke-width="2.5" filter="url(#glowSub)"/>
+      <text x="135" y="245" class="m-sub" fill="#15803d">6p</text>
+      <text x="158" y="247" class="m-badge" fill="#15803d" font-weight="900">[Rn]=86 ⭐</text>
+      <circle cx="205" cy="245" r="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+      <text x="205" y="245" class="m-sub" fill="#64748b">6d</text>
+
+      <!-- n=7 -->
+      <circle cx="65" cy="285" r="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+      <text x="65" y="285" class="m-sub" fill="#64748b">7s</text>
+      <circle cx="135" cy="285" r="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+      <text x="135" y="285" class="m-sub" fill="#64748b">7p</text>
+
+      <!-- Peuet explicatiu -->
+      <rect x="25" y="315" width="330" height="18" rx="6" fill="#e0f2fe" />
+      <text x="190" y="327" text-anchor="middle" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#0369a1">
+        Ordre: 1s ➔ 2s ➔ 2p ➔ 3s ➔ 3p ➔ 4s ➔ 3d ➔ 4p ➔ 5s ➔ 4d ➔ 5p ➔ 6s ➔ 4f ➔ 5d ➔ 6p (fins a Z=86)
+      </text>
     </svg>
   `,
 
@@ -626,6 +687,207 @@ const SVG_ASSETS = {
 
       <text x="140" y="25" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0369a1">Oxisals: Catió metàl·lic + Anió oxoanió</text>
       <text x="140" y="135" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e293b">CaCO₃: Carbonat de calci (pedra calcària i closques)</text>
+    </svg>
+  `,
+
+  // --------------------------------------------------------------------------
+  // IMATGES DEDICADES PER ALS EXERCICIS DE CONFIGURACIÓ ELECTRÒNICA (FINS A Z = 86)
+  // AMB DIAGRAMA DE MOELLER INTEGRAT
+  // --------------------------------------------------------------------------
+  // Exercici Moeller 1: Brom (Z = 35)
+  exMoellerBromine: `
+    <svg viewBox="0 0 320 180" class="w-full h-auto max-h-44 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="320" height="180" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+      <!-- Panell esquerre: Element i valència -->
+      <g>
+        <rect x="15" y="15" width="70" height="70" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+        <text x="50" y="32" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" fill="#dc2626">Z = 35</text>
+        <text x="50" y="58" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="24" font-weight="900" fill="#991b1b">Br</text>
+        <text x="50" y="76" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#7f1d1d">Brom</text>
+      </g>
+      <!-- Mini Diagrama de Moeller amb el camí del Brom ressaltat -->
+      <g transform="translate(100, 15)">
+        <rect width="205" height="150" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="102" y="16" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0369a1">Cami de Moeller fins a Z=35</text>
+        <!-- Fletxa de Moeller activa -->
+        <path d="M 25 35 L 55 55 L 45 75 L 85 95 L 65 115" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="3 2"/>
+        <!-- Orbitals completats -->
+        <g font-family="'JetBrains Mono', monospace" font-size="9" font-weight="bold" text-anchor="middle">
+          <circle cx="25" cy="35" r="11" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/><text x="25" y="39" fill="#991b1b">1s²</text>
+          <circle cx="25" cy="65" r="11" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/><text x="25" y="69" fill="#991b1b">2s²</text>
+          <circle cx="65" cy="65" r="11" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/><text x="65" y="69" fill="#991b1b">2p⁶</text>
+          <circle cx="25" cy="95" r="11" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/><text x="25" y="99" fill="#991b1b">3s²</text>
+          <circle cx="65" cy="95" r="11" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/><text x="65" y="99" fill="#991b1b">3p⁶</text>
+          <circle cx="25" cy="125" r="11" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/><text x="25" y="129" fill="#991b1b">4s²</text>
+          <circle cx="105" cy="95" r="11" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/><text x="105" y="99" fill="#991b1b">3d¹⁰</text>
+          <!-- Orbital final 4p5 -->
+          <circle cx="65" cy="125" r="13" fill="#dc2626" stroke="#991b1b" stroke-width="2.5"/><text x="65" y="129" fill="#ffffff" font-weight="900">4p⁵</text>
+        </g>
+        <text x="102" y="145" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="bold" fill="#047857">[Ar] 4s² 3d¹⁰ 4p⁵ (7 e⁻ de valència)</text>
+      </g>
+      <!-- Nota d'ajuda -->
+      <text x="50" y="120" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#64748b">Últim nivell: n=4</text>
+      <text x="50" y="135" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0284c7">4s² + 4p⁵ = 7</text>
+    </svg>
+  `,
+
+  // Exercici Moeller 2: Plata (Z = 47)
+  exMoellerSilver: `
+    <svg viewBox="0 0 320 180" class="w-full h-auto max-h-44 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="320" height="180" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+      <g>
+        <rect x="15" y="15" width="70" height="70" rx="10" fill="#f0f9ff" stroke="#0284c7" stroke-width="2"/>
+        <text x="50" y="32" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" fill="#0369a1">Z = 47</text>
+        <text x="50" y="58" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="24" font-weight="900" fill="#075985">Ag</text>
+        <text x="50" y="76" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0c4a6e">Plata</text>
+      </g>
+      <g transform="translate(100, 15)">
+        <rect width="205" height="150" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="102" y="16" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0369a1">Diagrama Moeller: arribant a 4d</text>
+        <!-- Bloc noble Kr (36) -->
+        <rect x="15" y="30" width="175" height="25" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+        <text x="102" y="46" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold" fill="#475569">[Kr 36] = 1s² 2s² 2p⁶ 3s² 3p⁶ 4s² 3d¹⁰ 4p⁶</text>
+        <!-- Següents orbitals segons Moeller -->
+        <g font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold" text-anchor="middle">
+          <!-- 5s -->
+          <circle cx="55" cy="85" r="16" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+          <text x="55" y="89" fill="#0369a1">5s¹</text>
+          <!-- Fletxa Aufbau diagonal cap a 4d -->
+          <path d="M 75 85 L 115 85" fill="none" stroke="#0284c7" stroke-width="2" marker-end="url(#mArr86)"/>
+          <!-- 4d9 / 4d10 -->
+          <circle cx="145" cy="85" r="18" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+          <text x="145" y="89" fill="#92400e">4d¹⁰</text>
+        </g>
+        <text x="102" y="125" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#64748b">Anomalia d'estabilitat: subnivell d complet</text>
+        <text x="102" y="142" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="black" fill="#0284c7">Configuració: [Kr] 5s¹ 4d¹⁰</text>
+      </g>
+      <text x="50" y="120" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#64748b">Bloc d</text>
+      <text x="50" y="135" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#d97706">Metall transició</text>
+    </svg>
+  `,
+
+  // Exercici Moeller 3: Bari (Z = 56)
+  exMoellerBarium: `
+    <svg viewBox="0 0 320 180" class="w-full h-auto max-h-44 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="320" height="180" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+      <g>
+        <rect x="15" y="15" width="70" height="70" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+        <text x="50" y="32" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" fill="#c2410c">Z = 56</text>
+        <text x="50" y="58" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="24" font-weight="900" fill="#9a3412">Ba</text>
+        <text x="50" y="76" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#7c2d12">Bari</text>
+      </g>
+      <g transform="translate(100, 15)">
+        <rect width="205" height="150" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="102" y="16" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0369a1">Pas clau de Moeller: després de 5p ve 6s!</text>
+        <g font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">
+          <!-- Xenó 54 -->
+          <rect x="20" y="30" width="165" height="24" rx="6" fill="#f3e8ff" stroke="#9333ea" stroke-width="1.5"/>
+          <text x="102" y="46" font-weight="bold" fill="#6b21a8">[Xe 54] = ... 5s² 4d¹⁰ 5p⁶</text>
+          <!-- Diagonal cap a 6s -->
+          <path d="M 102 56 L 102 78" stroke="#ea580c" stroke-width="2" marker-end="url(#mArr86)"/>
+          <circle cx="102" cy="100" r="18" fill="#ffedd5" stroke="#ea580c" stroke-width="2.5"/>
+          <text x="102" y="104" font-size="12" font-weight="900" fill="#c2410c">6s²</text>
+        </g>
+        <text x="102" y="132" text-anchor="middle" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#15803d">Total: 54 + 2 = 56 electrons</text>
+        <text x="102" y="145" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#475569">Alcalinoterri: valència +2 (Ba²⁺)</text>
+      </g>
+      <text x="50" y="120" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#64748b">Grup 2</text>
+      <text x="50" y="135" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#ea580c">2 e⁻ valència</text>
+    </svg>
+  `,
+
+  // Exercici Moeller 4: Or (Z = 79)
+  exMoellerGold: `
+    <svg viewBox="0 0 320 180" class="w-full h-auto max-h-44 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="320" height="180" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+      <g>
+        <rect x="15" y="15" width="70" height="70" rx="10" fill="#fefce8" stroke="#ca8a04" stroke-width="2"/>
+        <text x="50" y="32" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" fill="#a16207">Z = 79</text>
+        <text x="50" y="58" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="24" font-weight="900" fill="#854d0e">Au</text>
+        <text x="50" y="76" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#713f12">Or</text>
+      </g>
+      <g transform="translate(100, 15)">
+        <rect width="205" height="150" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="102" y="16" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0369a1">Apareix el subnivell 4f (14 electrons!)</text>
+        <!-- Esquema de blocs de Moeller -->
+        <g font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">
+          <rect x="15" y="28" width="55" height="22" rx="4" fill="#f3e8ff" stroke="#9333ea"/><text x="42" y="42" fill="#7e22ce">[Xe 54]</text>
+          <path d="M 72 39 L 88 39" stroke="#64748b" stroke-width="1.5"/>
+          <rect x="90" y="28" width="45" height="22" rx="4" fill="#e0f2fe" stroke="#0284c7"/><text x="112" y="42" fill="#0369a1">6s¹</text>
+          <path d="M 137 39 L 153 39" stroke="#64748b" stroke-width="1.5"/>
+          <!-- 4f14 -->
+          <rect x="25" y="62" width="65" height="25" rx="5" fill="#ecfdf5" stroke="#059669" stroke-width="2"/><text x="57" y="78" font-weight="bold" fill="#047857">4f¹⁴ (70)</text>
+          <path d="M 92 74 L 110 74" stroke="#059669" stroke-width="2" marker-end="url(#mArr86)"/>
+          <!-- 5d10 -->
+          <rect x="115" y="62" width="65" height="25" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/><text x="147" y="78" font-weight="black" fill="#b45309">5d¹⁰ (79)</text>
+        </g>
+        <text x="102" y="112" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#475569">Suma: 54 + 1 + 14 + 10 = 79 electrons</text>
+        <text x="102" y="130" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="bold" fill="#a16207">[Xe] 6s¹ 4f¹⁴ 5d¹⁰</text>
+        <text x="102" y="144" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#64748b">El nivell 4f s'omple completament</text>
+      </g>
+      <text x="50" y="120" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#64748b">Període 6</text>
+      <text x="50" y="135" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#ca8a04">Metall noble</text>
+    </svg>
+  `,
+
+  // Exercici Moeller 5: Plom (Z = 82)
+  exMoellerLead: `
+    <svg viewBox="0 0 320 180" class="w-full h-auto max-h-44 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="320" height="180" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+      <g>
+        <rect x="15" y="15" width="70" height="70" rx="10" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+        <text x="50" y="32" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" fill="#334155">Z = 82</text>
+        <text x="50" y="58" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="24" font-weight="900" fill="#1e293b">Pb</text>
+        <text x="50" y="76" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0f172a">Plom</text>
+      </g>
+      <g transform="translate(100, 15)">
+        <rect width="205" height="150" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="102" y="16" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0369a1">Quins són els electrons de valència?</text>
+        <g font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">
+          <!-- Core [Xe] 4f14 5d10 (80) -->
+          <rect x="15" y="28" width="175" height="22" rx="4" fill="#f8fafc" stroke="#94a3b8"/><text x="102" y="42" fill="#64748b">[Xe] 4f¹⁴ 5d¹⁰ = 80 electrons interns</text>
+          <!-- Electrons de l'últim nivell (n=6) -->
+          <rect x="35" y="60" width="60" height="30" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+          <text x="65" y="78" font-size="11" font-weight="900" fill="#0369a1">6s²</text>
+          <text x="105" y="78" font-size="14" font-weight="bold" fill="#475569">+</text>
+          <rect x="115" y="60" width="60" height="30" rx="6" fill="#f3e8ff" stroke="#9333ea" stroke-width="2"/>
+          <text x="145" y="78" font-size="11" font-weight="900" fill="#7e22ce">6p²</text>
+        </g>
+        <text x="102" y="112" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#059669">Capa de valència (n=6): 2 + 2 = 4 e⁻</text>
+        <text x="102" y="128" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#475569">Per això el plom té valències +2 i +4!</text>
+        <text x="102" y="143" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0284c7">Exemples: PbO (II) i PbO₂ (IV)</text>
+      </g>
+      <text x="50" y="120" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#64748b">Grup 14</text>
+      <text x="50" y="135" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#334155">Valències 2, 4</text>
+    </svg>
+  `,
+
+  // Exercici Moeller 6: Radó (Z = 86)
+  exMoellerRadon: `
+    <svg viewBox="0 0 320 180" class="w-full h-auto max-h-44 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="320" height="180" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+      <g>
+        <rect x="15" y="15" width="70" height="70" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="50" y="32" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" fill="#059669">Z = 86</text>
+        <text x="50" y="58" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="24" font-weight="900" fill="#047857">Rn</text>
+        <text x="50" y="76" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#065f46">Radó</text>
+      </g>
+      <g transform="translate(100, 15)">
+        <rect width="205" height="150" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="102" y="16" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#059669">Completant la 7a diagonal de Moeller!</text>
+        <g font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">
+          <text x="102" y="36" fill="#475569">4f¹⁴ (70) ➔ 5d¹⁰ (80) ➔ 6p⁶ (86)</text>
+          <!-- Caixa brillant octet 6s2 6p6 -->
+          <rect x="25" y="48" width="155" height="35" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+          <text x="102" y="65" font-size="11" font-weight="900" fill="#065f46">6s² 6p⁶ = Octet Noble!</text>
+          <text x="102" y="78" font-size="9" font-weight="bold" fill="#047857">8 electrons capa externa</text>
+        </g>
+        <text x="102" y="105" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0369a1">Configuració completa de Z = 86:</text>
+        <text x="102" y="122" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="bold" fill="#1e293b">[Xe] 6s² 4f¹⁴ 5d¹⁰ 6p⁶</text>
+        <text x="102" y="142" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#059669">Últim gas noble del període 6! 🏆</text>
+      </g>
+      <text x="50" y="120" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#64748b">Grup 18</text>
+      <text x="50" y="135" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#059669">Gas noble</text>
     </svg>
   `,
 

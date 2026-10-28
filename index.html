@@ -524,34 +524,51 @@
         </div>
       </div>
 
-      <!-- 3. Simulador de Configuracions Electròniques i València -->
+      <!-- 3. Simulador de Configuracions Electròniques i València (Ampliat fins a Z = 86) -->
       <div class="glass-panel p-6 sm:p-8 rounded-3xl border-2 border-indigo-100">
-        <div class="max-w-2xl mb-6">
-          <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-md">Simulador Interactiu</span>
-          <h3 class="text-2xl font-black text-slate-900 mt-2">Calculadora de Configuració Electrònica</h3>
+        <div class="max-w-3xl mb-6">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-md">Simulador Interactiu</span>
+            <span class="text-xs font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800">Ampliat fins a Z = 86 (Radó)</span>
+          </div>
+          <h3 class="text-2xl font-black text-slate-900 mt-2">Calculadora de Configuració Electrònica (Z = 1 fins a Z = 86)</h3>
           <p class="text-xs sm:text-sm text-slate-600 mt-1">
-            Tria o escriu el nombre atòmic Z d'un element per veure la seva configuració automàtica i com determina els seus electrons de valència:
+            Tria o escriu el nombre atòmic Z de qualsevol element des de l'Hidrogen (Z=1) fins al Radó (Z=86) per veure la configuració completa, la notació abreujada amb gas noble i la deducció per a la formulació:
           </p>
         </div>
 
-        <!-- Selectors ràpids d'elements clau -->
-        <div class="flex items-center gap-2 flex-wrap mb-4">
-          <span class="text-xs font-bold text-slate-500 mr-2">Elements ràpids:</span>
-          <button onclick="calculateConfig(1)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">H (Z=1)</button>
-          <button onclick="calculateConfig(6)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">C (Z=6)</button>
-          <button onclick="calculateConfig(7)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">N (Z=7)</button>
-          <button onclick="calculateConfig(8)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">O (Z=8)</button>
-          <button onclick="calculateConfig(11)" class="px-2.5 py-1 text-xs rounded-lg bg-sky-600 text-white font-bold">Na (Z=11)</button>
-          <button onclick="calculateConfig(12)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Mg (Z=12)</button>
-          <button onclick="calculateConfig(13)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Al (Z=13)</button>
-          <button onclick="calculateConfig(17)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Cl (Z=17)</button>
-          <button onclick="calculateConfig(20)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Ca (Z=20)</button>
-          <button onclick="calculateConfig(26)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Fe (Z=26)</button>
+        <!-- Selectors ràpids d'elements clau fins a Z = 86 -->
+        <div class="flex items-center gap-1.5 flex-wrap mb-4">
+          <span class="text-xs font-bold text-slate-500 mr-1">Elements clau:</span>
+          <button onclick="calculateConfig(1)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">H (1)</button>
+          <button onclick="calculateConfig(6)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">C (6)</button>
+          <button onclick="calculateConfig(8)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">O (8)</button>
+          <button onclick="calculateConfig(11)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Na (11)</button>
+          <button onclick="calculateConfig(17)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Cl (17)</button>
+          <button onclick="calculateConfig(20)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Ca (20)</button>
+          <button onclick="calculateConfig(26)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Fe (26)</button>
+          <button onclick="calculateConfig(35)" class="px-2.5 py-1 text-xs rounded-lg bg-indigo-600 text-white font-black shadow-xs">Br (35)</button>
+          <button onclick="calculateConfig(36)" class="px-2.5 py-1 text-xs rounded-lg bg-purple-100 text-purple-800 font-bold">Kr (36)</button>
+          <button onclick="calculateConfig(47)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Ag (47)</button>
+          <button onclick="calculateConfig(53)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">I (53)</button>
+          <button onclick="calculateConfig(54)" class="px-2.5 py-1 text-xs rounded-lg bg-purple-100 text-purple-800 font-bold">Xe (54)</button>
+          <button onclick="calculateConfig(56)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Ba (56)</button>
+          <button onclick="calculateConfig(79)" class="px-2.5 py-1 text-xs rounded-lg bg-amber-100 text-amber-900 border border-amber-300 font-bold">Au (79)</button>
+          <button onclick="calculateConfig(82)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Pb (82)</button>
+          <button onclick="calculateConfig(86)" class="px-2.5 py-1 text-xs rounded-lg bg-emerald-600 text-white font-black shadow-xs">Rn (86) ⭐</button>
         </div>
 
-        <div class="flex items-center gap-3 max-w-xs mb-6">
-          <label for="z-input" class="text-xs font-bold text-slate-700 shrink-0">O escriu Z (1 a 30):</label>
-          <input type="number" id="z-input" min="1" max="30" value="11" onchange="calculateConfig(this.value)" class="w-20 px-3 py-1.5 rounded-xl border border-slate-300 font-mono text-sm font-bold text-center focus:outline-hidden focus:border-sky-500">
+        <!-- Slider i Input numèric de Z -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6 p-4 bg-slate-50 rounded-2xl border border-slate-200">
+          <div class="flex items-center gap-2">
+            <label for="z-input" class="text-xs font-bold text-slate-700 shrink-0">Nombre atòmic Z (1 a 86):</label>
+            <input type="number" id="z-input" min="1" max="86" value="35" onchange="calculateConfig(this.value)" class="w-20 px-3 py-1.5 rounded-xl border border-slate-300 font-mono text-base font-black text-center focus:outline-hidden focus:border-indigo-500 bg-white">
+          </div>
+          <div class="flex-1 w-full flex items-center gap-3">
+            <span class="text-xs text-slate-400 font-mono font-bold">1</span>
+            <input type="range" id="z-slider" min="1" max="86" value="35" oninput="calculateConfig(this.value)" class="w-full accent-indigo-600 cursor-pointer">
+            <span class="text-xs text-slate-600 font-mono font-bold">86 (Rn)</span>
+          </div>
         </div>
 
         <!-- Resultat de la configuració -->
@@ -560,15 +577,39 @@
         </div>
       </div>
 
-      <!-- 4. Banc d'Exercicis d'Orbitals (TOTS AMB IMATGE) -->
+      <!-- 4. Entrenador Interactiu de Configuració Moeller (Pas a Pas) -->
+      <div id="moeller-trainer-container">
+        <!-- Renderitzat per app.js -->
+      </div>
+
+      <!-- 5. Banc d'Exercicis de Configuració amb Diagrama de Moeller (fins a Z = 86) -->
+      <div>
+        <div class="flex items-center justify-between mb-6 flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-2xl font-black text-slate-900">Exercicis de Configuració amb Diagrama de Moeller</h3>
+              <span class="text-xs font-black uppercase tracking-wider px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-md">Fins a Z = 86</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">Resol cada exercici guiant-te pel diagrama de Moeller i les seves diagonals integrades a la imatge!</p>
+          </div>
+          <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
+            📊 Diagrama Moeller a cada repte
+          </span>
+        </div>
+        <div id="moeller-exercises-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Renderitzat per app.js -->
+        </div>
+      </div>
+
+      <!-- 6. Banc d'Exercicis Generals de Teories Atòmiques i Orbitals -->
       <div>
         <div class="flex items-center justify-between mb-6">
           <div>
-            <h3 class="text-2xl font-black text-slate-900">Exercicis de Teories Atòmiques i Orbitals</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Posa a prova la teva comprensió física de l'àtom (amb suport visual a cada pregunta)</p>
+            <h3 class="text-2xl font-black text-slate-900">Altres Exercicis de Teories Atòmiques</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Posa a prova la teva comprensió històrica de l'àtom (amb suport visual a cada pregunta)</p>
           </div>
-          <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-            🎨 Imatge a cada exercici
+          <span class="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
+            🎨 Teoria clàssica
           </span>
         </div>
         <div id="atomic-exercises-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -921,6 +962,7 @@
   </footer>
 
   <!-- Carregar Dades i Scripts -->
+  <script src="elements86.js"></script>
   <script src="svg-assets.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>

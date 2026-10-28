@@ -173,7 +173,9 @@ function switchTab(tabId) {
   } else if (tabId === 'atomic') {
     renderAtomicTheories();
     renderAtomicExercises();
-    calculateConfig(11); // Sodi per defecte
+    renderMoellerExercises();
+    initMoellerTrainer(35);
+    calculateConfig(35);
   } else if (tabId === 'reforc') {
     renderReinforcement();
   } else if (tabId === 'ampliacio') {
@@ -876,23 +878,39 @@ function renderAtomicTheories() {
   }
 }
 
-// Simulador interactiu de configuracions electròniques
+// Simulador interactiu de configuracions electròniques ampliat fins a Z = 86 (Radó)
 function calculateConfig(zValue) {
-  const z = parseInt(zValue) || 1;
+  let z = parseInt(zValue) || 1;
+  if (z < 1) z = 1;
+  if (z > 86) z = 86;
+
+  // Sincronitzar controls de la interfície
+  const inputEl = document.getElementById('z-input');
+  const sliderEl = document.getElementById('z-slider');
+  if (inputEl) inputEl.value = z;
+  if (sliderEl) sliderEl.value = z;
+
   const subshells = [
-    { name: '1s', n: 1, max: 2 },
-    { name: '2s', n: 2, max: 2 },
-    { name: '2p', n: 2, max: 6 },
-    { name: '3s', n: 3, max: 2 },
-    { name: '3p', n: 3, max: 6 },
-    { name: '4s', n: 4, max: 2 },
-    { name: '3d', n: 3, max: 10 },
-    { name: '4p', n: 4, max: 6 }
+    { name: '1s', n: 1, l: 's', max: 2, cum: 2 },
+    { name: '2s', n: 2, l: 's', max: 2, cum: 4 },
+    { name: '2p', n: 2, l: 'p', max: 6, cum: 10 },
+    { name: '3s', n: 3, l: 's', max: 2, cum: 12 },
+    { name: '3p', n: 3, l: 'p', max: 6, cum: 18 },
+    { name: '4s', n: 4, l: 's', max: 2, cum: 20 },
+    { name: '3d', n: 3, l: 'd', max: 10, cum: 30 },
+    { name: '4p', n: 4, l: 'p', max: 6, cum: 36 },
+    { name: '5s', n: 5, l: 's', max: 2, cum: 38 },
+    { name: '4d', n: 4, l: 'd', max: 10, cum: 48 },
+    { name: '5p', n: 5, l: 'p', max: 6, cum: 54 },
+    { name: '6s', n: 6, l: 's', max: 2, cum: 56 },
+    { name: '4f', n: 4, l: 'f', max: 14, cum: 70 },
+    { name: '5d', n: 5, l: 'd', max: 10, cum: 80 },
+    { name: '6p', n: 6, l: 'p', max: 6, cum: 86 }
   ];
 
   let remaining = z;
   const configParts = [];
-  const shellElectrons = { 1: 0, 2: 0, 3: 0, 4: 0 };
+  const shellElectrons = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
   let maxN = 1;
 
   for (const sub of subshells) {
@@ -900,52 +918,392 @@ function calculateConfig(zValue) {
     const count = Math.min(remaining, sub.max);
     configParts.push(`${sub.name}<sup>${count}</sup>`);
     shellElectrons[sub.n] = (shellElectrons[sub.n] || 0) + count;
-    if (sub.n > maxN) maxN = sub.n;
+    if (sub.n > maxN && count > 0) maxN = sub.n;
     remaining -= count;
   }
 
+  // Notació de gas noble abreujada
+  let nobleCore = '';
+  if (z === 86) {
+    nobleCore = '[Xe] 6s<sup>2</sup> 4f<sup>14</sup> 5d<sup>10</sup> 6p<sup>6</sup> = [Rn] (Octet tancat)';
+  } else if (z > 54) {
+    nobleCore = `[Xe] ${getSubshellSlice(54, z, subshells)}`;
+  } else if (z === 54) {
+    nobleCore = '[Kr] 5s<sup>2</sup> 4d<sup>10</sup> 5p<sup>6</sup> = [Xe]';
+  } else if (z > 36) {
+    nobleCore = `[Kr] ${getSubshellSlice(36, z, subshells)}`;
+  } else if (z === 36) {
+    nobleCore = '[Ar] 4s<sup>2</sup> 3d<sup>10</sup> 4p<sup>6</sup> = [Kr]';
+  } else if (z > 18) {
+    nobleCore = `[Ar] ${getSubshellSlice(18, z, subshells)}`;
+  } else if (z === 18) {
+    nobleCore = '[Ne] 3s<sup>2</sup> 3p<sup>6</sup> = [Ar]';
+  } else if (z > 10) {
+    nobleCore = `[Ne] ${getSubshellSlice(10, z, subshells)}`;
+  } else if (z === 10) {
+    nobleCore = '[He] 2s<sup>2</sup> 2p<sup>6</sup> = [Ne]';
+  } else if (z > 2) {
+    nobleCore = `[He] ${getSubshellSlice(2, z, subshells)}`;
+  } else if (z === 2) {
+    nobleCore = '1s<sup>2</sup> = [He]';
+  } else {
+    nobleCore = '1s<sup>1</sup>';
+  }
+
+  // Cerca de l'element a ALL_ELEMENTS_86 o CHEMISTRY_DATA.elements
+  const elFound = (typeof ALL_ELEMENTS_86 !== 'undefined' ? ALL_ELEMENTS_86.find(e => e.z === z) : null) ||
+                  CHEMISTRY_DATA.elements.find(e => e.num === z) ||
+                  { z, symbol: 'E' + z, name: 'Element Z=' + z, group: '-', period: '-', type: 'Element' };
+
   const valenceElectrons = shellElectrons[maxN];
-  const elFound = CHEMISTRY_DATA.elements.find(e => e.num === z) || { symbol: 'X', name: 'Element Z=' + z, commonValence: 'Variable' };
 
   const resultContainer = document.getElementById('config-result');
   if (resultContainer) {
     resultContainer.innerHTML = `
-      <div class="bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200 rounded-2xl p-5">
-        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
-          <div class="flex items-center gap-3">
-            <span class="w-12 h-12 rounded-2xl bg-sky-600 text-white flex items-center justify-center font-black text-xl shadow-md">
+      <div class="bg-gradient-to-r from-sky-50 via-teal-50 to-indigo-50 border-2 border-sky-200 rounded-3xl p-6 shadow-sm">
+        <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+          <div class="flex items-center gap-4">
+            <span class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-600 to-indigo-600 text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-sky-500/20">
               ${elFound.symbol}
             </span>
             <div>
-              <h4 class="text-lg font-bold text-slate-800">${elFound.name} (Z = ${z})</h4>
-              <span class="text-xs text-slate-500 font-medium">Nombre d'electrons: ${z}</span>
+              <div class="flex items-center gap-2">
+                <h4 class="text-xl font-black text-slate-900">${elFound.name}</h4>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-sky-100 text-sky-800">Z = ${z}</span>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">Període: ${elFound.period || maxN} | Grup: ${elFound.group || '-'} | Tipus: ${(elFound.type || '').replace('-', ' ')}</span>
             </div>
           </div>
-          <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full">
-            Nivell màxim (Capa de valència): n = ${maxN}
-          </span>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full border border-indigo-200">
+              Capa de valència: n = ${maxN}
+            </span>
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full border border-emerald-200">
+              ${z <= 36 ? 'Bloc principal' : (z <= 56 ? 'Transició / d' : 'Lantanoides / f / p')}
+            </span>
+          </div>
         </div>
 
-        <div class="p-3 bg-slate-900 text-sky-300 font-mono text-lg rounded-xl mb-4 font-bold tracking-wide overflow-x-auto">
-          ${configParts.join(' ')}
+        <!-- Configuració Completa -->
+        <div class="space-y-1 mb-4">
+          <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Configuració Electrònica Completa (Moeller fins a Z=${z}):</span>
+          <div class="p-4 bg-slate-950 text-sky-300 font-mono text-base sm:text-lg rounded-2xl font-bold tracking-wide overflow-x-auto shadow-inner border border-slate-800">
+            ${configParts.join(' ')}
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <div class="p-3 bg-white rounded-xl border border-slate-200">
-            <span class="text-slate-400 block font-semibold uppercase">Electrons de València:</span>
-            <span class="text-lg font-black text-sky-700">${valenceElectrons} electrons</span>
+        <!-- Notació Abreviada de Gas Noble -->
+        <div class="space-y-1 mb-4">
+          <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Notació Abreviada amb Gas Noble:</span>
+          <div class="p-3 bg-white border border-indigo-100 text-indigo-900 font-mono text-sm sm:text-base rounded-xl font-bold shadow-xs flex items-center gap-2">
+            <span class="text-xs px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-md font-sans font-bold">Abreviada:</span>
+            <span>${nobleCore}</span>
           </div>
-          <div class="p-3 bg-white rounded-xl border border-slate-200">
-            <span class="text-slate-400 block font-semibold uppercase">Distribució per Capes:</span>
-            <span class="text-sm font-bold text-slate-800">K:${shellElectrons[1]} | L:${shellElectrons[2]} | M:${shellElectrons[3]} | N:${shellElectrons[4]}</span>
+        </div>
+
+        <!-- Taula de distribució per capes K, L, M, N, O, P -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs mb-2">
+          <div class="p-3.5 bg-white rounded-2xl border border-slate-200 text-center">
+            <span class="text-slate-400 block font-semibold uppercase text-[10px]">Electrons València:</span>
+            <span class="text-xl font-black text-sky-700">${valenceElectrons} e⁻</span>
+            <span class="text-[10px] text-slate-500 block mt-0.5">al nivell n = ${maxN}</span>
           </div>
-          <div class="p-3 bg-white rounded-xl border border-slate-200">
-            <span class="text-slate-400 block font-semibold uppercase">Connexió amb la Formulació:</span>
-            <span class="text-sm font-bold text-emerald-700">València: ${elFound.commonValence}</span>
+          <div class="p-3.5 bg-white rounded-2xl border border-slate-200 text-center">
+            <span class="text-slate-400 block font-semibold uppercase text-[10px]">Distribució per Capes:</span>
+            <span class="text-xs font-mono font-bold text-slate-800 block mt-1">
+              K:${shellElectrons[1]} | L:${shellElectrons[2]} | M:${shellElectrons[3]}<br>
+              N:${shellElectrons[4]} | O:${shellElectrons[5]} | P:${shellElectrons[6]}
+            </span>
+          </div>
+          <div class="p-3.5 bg-white rounded-2xl border border-slate-200 text-center col-span-2">
+            <span class="text-slate-400 block font-semibold uppercase text-[10px]">Deducció per a la Formulació Inorgànica:</span>
+            <p class="text-xs font-semibold text-emerald-800 mt-1">
+              ${getFormulationDeduction(z, valenceElectrons, elFound)}
+            </p>
           </div>
         </div>
       </div>
     `;
+  }
+}
+
+// Funció auxiliar per a la notació abreujada
+function getSubshellSlice(fromZ, toZ, subshells) {
+  let rem = toZ;
+  let skipped = fromZ;
+  const parts = [];
+  for (const s of subshells) {
+    if (rem <= 0) break;
+    if (skipped >= s.max) {
+      skipped -= s.max;
+      rem -= s.max;
+      continue;
+    }
+    const available = s.max - skipped;
+    skipped = 0;
+    const count = Math.min(rem, available);
+    if (count > 0) {
+      parts.push(`${s.name}<sup>${count}</sup>`);
+      rem -= count;
+    }
+  }
+  return parts.join(' ');
+}
+
+// Funció auxiliar de connexió amb formulació
+function getFormulationDeduction(z, valElectrons, el) {
+  if (z === 2 || z === 10 || z === 18 || z === 36 || z === 54 || z === 86) {
+    return 'Gas noble amb l\'octet complet. No sol formar compostos en condicions normals (valència 0).';
+  }
+  if (valElectrons === 1) {
+    return 'Tendeix a cedir 1 electró per assolir l\'octet del gas noble anterior. València característica: +1.';
+  }
+  if (valElectrons === 2) {
+    return 'Tendeix a cedir 2 electrons de l\'orbital s. València característica: +2.';
+  }
+  if (valElectrons === 7) {
+    return 'Halogen: només li falta 1 electró per completar l\'octet. València en sals binàries: -1.';
+  }
+  if (valElectrons === 6) {
+    return 'Calcogen: guanya 2 electrons com a anió (valència -2) o comparteix electrons en òxids (+4, +6).';
+  }
+  if (z >= 21 && z <= 30 || z >= 39 && z <= 48 || z >= 72 && z <= 80) {
+    return 'Metall de transició amb orbitals d interns incomplets. Presenta diverses valències segons els electrons que mobilitza.';
+  }
+  return `Té ${valElectrons} electrons a l'últim nivell, definint les seves propietats d'enllaç i estats d'oxidació.`;
+}
+
+// ==========================================================================
+// Entrenador Interactiu de Moeller Pas a Pas (Game / Interactive Trainer)
+// ==========================================================================
+function initMoellerTrainer(zTarget) {
+  const z = parseInt(zTarget) || 35;
+  const el = (typeof ALL_ELEMENTS_86 !== 'undefined' ? ALL_ELEMENTS_86.find(e => e.z === z) : null) ||
+             CHEMISTRY_DATA.elements.find(e => e.num === z) ||
+             { z, symbol: 'X', name: 'Element Z=' + z };
+
+  state.trainer = {
+    targetZ: z,
+    element: el,
+    currentSubIdx: 0,
+    electronsPlaced: 0,
+    configParts: [],
+    isFinished: false,
+    errorMsg: ''
+  };
+
+  renderMoellerTrainerUI();
+}
+
+function renderMoellerTrainerUI() {
+  const container = document.getElementById('moeller-trainer-container');
+  if (!container || !state.trainer) return;
+
+  const t = state.trainer;
+  const subshells = CHEMISTRY_DATA.moellerSubshells;
+  const currentSub = subshells[t.currentSubIdx];
+  const progressPct = Math.round((t.electronsPlaced / t.targetZ) * 100);
+
+  container.innerHTML = `
+    <div class="glass-panel p-6 sm:p-8 rounded-3xl border-2 border-indigo-200 space-y-6">
+      <div class="flex items-center justify-between flex-wrap gap-4 border-b border-indigo-100 pb-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
+            Entrenador Interactiu Moeller
+          </span>
+          <h3 class="text-2xl font-black text-slate-900 mt-2">
+            Configura: <span class="text-indigo-600">${t.element.name} (${t.element.symbol}, Z = ${t.targetZ})</span>
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">Fes clic als orbitals en l'ordre exacte de les fletxes diagonals del diagrama de Moeller!</p>
+        </div>
+
+        <!-- Selector ràpid d'elements de repte -->
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="text-xs font-bold text-slate-400 mr-1">Provar:</span>
+          <button onclick="initMoellerTrainer(17)" class="px-2.5 py-1 text-xs rounded-lg ${t.targetZ === 17 ? 'bg-indigo-600 text-white font-bold' : 'bg-white border border-slate-200 text-slate-700'}">Cl (17)</button>
+          <button onclick="initMoellerTrainer(26)" class="px-2.5 py-1 text-xs rounded-lg ${t.targetZ === 26 ? 'bg-indigo-600 text-white font-bold' : 'bg-white border border-slate-200 text-slate-700'}">Fe (26)</button>
+          <button onclick="initMoellerTrainer(35)" class="px-2.5 py-1 text-xs rounded-lg ${t.targetZ === 35 ? 'bg-indigo-600 text-white font-bold' : 'bg-white border border-slate-200 text-slate-700'}">Br (35)</button>
+          <button onclick="initMoellerTrainer(47)" class="px-2.5 py-1 text-xs rounded-lg ${t.targetZ === 47 ? 'bg-indigo-600 text-white font-bold' : 'bg-white border border-slate-200 text-slate-700'}">Ag (47)</button>
+          <button onclick="initMoellerTrainer(56)" class="px-2.5 py-1 text-xs rounded-lg ${t.targetZ === 56 ? 'bg-indigo-600 text-white font-bold' : 'bg-white border border-slate-200 text-slate-700'}">Ba (56)</button>
+          <button onclick="initMoellerTrainer(79)" class="px-2.5 py-1 text-xs rounded-lg ${t.targetZ === 79 ? 'bg-indigo-600 text-white font-bold' : 'bg-white border border-slate-200 text-slate-700'}">Au (79)</button>
+          <button onclick="initMoellerTrainer(82)" class="px-2.5 py-1 text-xs rounded-lg ${t.targetZ === 82 ? 'bg-indigo-600 text-white font-bold' : 'bg-white border border-slate-200 text-slate-700'}">Pb (82)</button>
+          <button onclick="initMoellerTrainer(86)" class="px-2.5 py-1 text-xs rounded-lg ${t.targetZ === 86 ? 'bg-indigo-600 text-white font-bold' : 'bg-white border border-slate-200 text-slate-700'}">Rn (86)</button>
+        </div>
+      </div>
+
+      <!-- Barra de progrés d'electrons -->
+      <div>
+        <div class="flex justify-between items-center text-xs font-bold mb-1.5">
+          <span class="text-slate-600">Electrons col·locats: <strong class="text-indigo-700">${t.electronsPlaced}</strong> de <strong>${t.targetZ}</strong></span>
+          <span class="text-indigo-600 font-mono">${progressPct}% completat</span>
+        </div>
+        <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden">
+          <div class="bg-gradient-to-r from-sky-500 via-indigo-500 to-emerald-500 h-full transition-all duration-300" style="width: ${progressPct}%"></div>
+        </div>
+      </div>
+
+      <!-- Caixa de visualització de la configuració en construcció -->
+      <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 text-sky-300 font-mono text-lg min-h-[60px] flex items-center justify-between flex-wrap gap-2 shadow-inner">
+        <div>
+          ${t.configParts.length > 0 ? t.configParts.join(' ') : '<span class="text-slate-500 text-sm font-sans italic">Fes clic al primer orbital (1s) segons el diagrama de Moeller...</span>'}
+        </div>
+        ${t.isFinished ? '<span class="px-3 py-1 bg-emerald-500 text-white text-xs font-sans font-bold rounded-full animate-bounce">✓ CONFIGURACIÓ COMPLETA!</span>' : ''}
+      </div>
+
+      <!-- Missatge d'avís d'error si s'ha clicat l'orbital incorrecte -->
+      ${t.errorMsg ? `
+        <div class="p-3 bg-rose-50 border border-rose-200 text-rose-900 rounded-xl text-xs font-medium animate-fadeIn flex items-center gap-2">
+          <span class="text-base">⚠️</span>
+          <span>${t.errorMsg}</span>
+        </div>
+      ` : ''}
+
+      <!-- Àrea de treball: Botons d'orbitals i Diagrama de Moeller -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        <!-- Columna 1: Teclat d'Orbitals de Moeller -->
+        <div class="space-y-3">
+          <span class="text-xs font-bold text-slate-700 block">Tria el següent orbital a omplir:</span>
+          <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+            ${subshells.map((sub, idx) => {
+              const isFilled = idx < t.currentSubIdx;
+              const isNext = idx === t.currentSubIdx && !t.isFinished;
+              return `
+                <button onclick="handleTrainerOrbitalClick('${sub.id}')" ${t.isFinished ? 'disabled' : ''} class="p-3 rounded-xl border text-center transition-all ${
+                  isFilled 
+                    ? 'bg-slate-100 border-slate-300 text-slate-400 font-medium cursor-not-allowed opacity-60' 
+                    : isNext 
+                      ? 'bg-indigo-600 hover:bg-indigo-700 text-white font-black shadow-md shadow-indigo-500/30 scale-105 ring-2 ring-indigo-400 ring-offset-2' 
+                      : 'bg-white hover:bg-sky-50 border-slate-200 text-slate-700 font-bold hover:scale-102'
+                }">
+                  <span class="text-sm font-mono block">${sub.id}</span>
+                  <span class="text-[10px] block opacity-80">(màx ${sub.max})</span>
+                </button>
+              `;
+            }).join('')}
+          </div>
+          <div class="pt-2 flex justify-between items-center text-xs text-slate-500">
+            <button onclick="initMoellerTrainer(${t.targetZ})" class="text-indigo-600 font-bold hover:underline">🔄 Reiniciar aquest element</button>
+            <button onclick="initMoellerTrainer(Math.floor(Math.random() * 85) + 2)" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition-colors">🎲 Element aleatori (Z=1..86)</button>
+          </div>
+        </div>
+
+        <!-- Columna 2: Diagrama de Moeller de Referència -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-slate-800">Diagrama de Moeller de Suport:</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 bg-sky-100 text-sky-700 rounded-md">Fins a Z = 86</span>
+          </div>
+          <div class="max-h-[300px] overflow-hidden flex items-center justify-center">
+            ${SVG_ASSETS.moellerDiagram}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function handleTrainerOrbitalClick(subId) {
+  if (!state.trainer || state.trainer.isFinished) return;
+  const t = state.trainer;
+  const subshells = CHEMISTRY_DATA.moellerSubshells;
+  const expectedSub = subshells[t.currentSubIdx];
+
+  if (subId === expectedSub.id) {
+    // Correcte!
+    t.errorMsg = '';
+    const remainingNeeded = t.targetZ - t.electronsPlaced;
+    const electronsToAdd = Math.min(remainingNeeded, expectedSub.max);
+
+    t.configParts.push(`${expectedSub.id}<sup>${electronsToAdd}</sup>`);
+    t.electronsPlaced += electronsToAdd;
+    t.currentSubIdx++;
+
+    if (t.electronsPlaced >= t.targetZ) {
+      t.isFinished = true;
+      sfx.playFanfare();
+    } else {
+      sfx.playSuccess();
+    }
+    renderMoellerTrainerUI();
+  } else {
+    // Incorrecte!
+    sfx.playError();
+    t.errorMsg = `Atenció: segons les diagonals de Moeller no tocava '${subId}', sinó '${expectedSub.id}'! Fixa't en la fletxa que creua des de dalt a la dreta.`;
+    renderMoellerTrainerUI();
+  }
+}
+
+// ==========================================================================
+// Banc d'Exercicis de Configuració amb Diagrama de Moeller (fins a Z = 86)
+// ==========================================================================
+function renderMoellerExercises() {
+  const container = document.getElementById('moeller-exercises-container');
+  if (!container) return;
+
+  container.innerHTML = CHEMISTRY_DATA.moellerExercises.map((ex, idx) => `
+    <div class="glass-card p-6 rounded-3xl border border-indigo-100 space-y-4 shadow-sm" id="moeller-card-${idx}">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
+          Exercici Moeller ${idx + 1}: ${ex.element}
+        </span>
+        <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-md border border-emerald-200">
+          Diagrama Moeller inclòs
+        </span>
+      </div>
+
+      <!-- Imatge dedicada de l'exercici amb el seu Diagrama de Moeller -->
+      <div class="bg-gradient-to-b from-slate-50 to-indigo-50/40 rounded-2xl p-4 border border-indigo-100/80 flex items-center justify-center">
+        ${SVG_ASSETS[ex.imageKey] || ''}
+      </div>
+
+      <h4 class="text-base font-bold text-slate-800 leading-snug">
+        ${ex.question}
+      </h4>
+
+      <!-- Opcions -->
+      <div class="grid grid-cols-1 gap-2.5" id="moeller-opts-${idx}">
+        ${ex.options.map((opt, optIdx) => `
+          <button onclick="handleMoellerExerciseAnswer(${idx}, ${optIdx})" class="text-left p-3.5 rounded-xl border border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 transition-all text-xs sm:text-sm font-medium text-slate-700 flex items-center gap-3">
+            <span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs shrink-0">
+              ${String.fromCharCode(65 + optIdx)}
+            </span>
+            <span>${opt}</span>
+          </button>
+        `).join('')}
+      </div>
+
+      <!-- Feedback -->
+      <div id="moeller-feedback-${idx}" class="hidden p-4 rounded-2xl text-xs sm:text-sm leading-relaxed"></div>
+    </div>
+  `).join('');
+}
+
+function handleMoellerExerciseAnswer(exIdx, selectedOptIdx) {
+  const ex = CHEMISTRY_DATA.moellerExercises[exIdx];
+  const container = document.getElementById(`moeller-opts-${exIdx}`);
+  const feedback = document.getElementById(`moeller-feedback-${exIdx}`);
+  if (!container || !feedback) return;
+
+  const isCorrect = selectedOptIdx === ex.correctIndex;
+  const buttons = container.querySelectorAll('button');
+
+  buttons.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === ex.correctIndex) {
+      btn.className = 'text-left p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-bold flex items-center gap-3 text-xs sm:text-sm';
+    } else if (idx === selectedOptIdx) {
+      btn.className = 'text-left p-3.5 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-900 flex items-center gap-3 text-xs sm:text-sm';
+    }
+  });
+
+  if (isCorrect) {
+    sfx.playSuccess();
+    feedback.className = 'p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs sm:text-sm animate-fadeIn block';
+    feedback.innerHTML = `<strong>🎉 Molt bé! Resposta correcta:</strong> ${ex.explanation}`;
+  } else {
+    sfx.playError();
+    feedback.className = 'p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-950 text-xs sm:text-sm animate-fadeIn block';
+    feedback.innerHTML = `<strong>⚠️ Compte:</strong> ${ex.explanation}`;
   }
 }
 
@@ -1268,7 +1626,9 @@ document.addEventListener('DOMContentLoaded', () => {
   renderPeriodicElements();
   renderAtomicTheories();
   renderAtomicExercises();
-  calculateConfig(11);
+  renderMoellerExercises();
+  initMoellerTrainer(35);
+  calculateConfig(35);
   renderReinforcement();
   renderExtension();
   renderFlashcard();
