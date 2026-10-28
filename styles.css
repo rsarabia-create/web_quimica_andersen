@@ -1,0 +1,210 @@
+/* ==========================================================================
+   Estils Personalitzats - Formulació Inorgànica 3r ESO
+   ========================================================================== */
+
+:root {
+  --primary: #0284c7;
+  --primary-dark: #0369a1;
+  --secondary: #0d9488;
+  --accent: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --bg-gradient: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 50%, #f5f3ff 100%);
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  color: #1e293b;
+}
+
+/* Subscript styling */
+sub {
+  font-size: 0.7em;
+  vertical-align: sub;
+  font-weight: 700;
+}
+
+sup {
+  font-size: 0.7em;
+  vertical-align: super;
+  font-weight: 700;
+}
+
+/* Glassmorphism containers */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -6px rgba(14, 165, 233, 0.15);
+}
+
+/* Navigation tabs */
+.nav-tab {
+  transition: all 0.2s ease;
+  position: relative;
+  font-weight: 500;
+}
+
+.nav-tab.active {
+  color: #0284c7;
+  font-weight: 700;
+}
+
+.nav-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0284c7, #06b6d4);
+  border-radius: 9999px;
+}
+
+/* Molecule floating animations */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.floating-anim {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Cross Charges Animation */
+@keyframes pulseCross {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 8px rgba(14, 165, 233, 0.5)); }
+}
+
+.cross-arrow {
+  animation: pulseCross 2.5s infinite;
+}
+
+/* Flashcards 3D Flip */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+/* Element periodic badges */
+.element-badge {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.element-badge:hover {
+  transform: scale(1.08) translateY(-2px);
+  z-index: 10;
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.15);
+}
+
+/* Streak badge animation */
+@keyframes flame {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2) rotate(-5deg); }
+  100% { transform: scale(1); }
+}
+
+.flame-anim {
+  display: inline-block;
+  animation: flame 1.2s infinite ease-in-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Hide scrollbars for clean tab bar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Printing styles for cheat-sheet */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  
+  header, nav, #btn-audio-toggle, #print-button, .no-print {
+    display: none !important;
+  }
+  
+  .tab-pane {
+    display: none !important;
+  }
+  
+  #pane-resum {
+    display: block !important;
+  }
+  
+  .glass-panel, .glass-card {
+    box-shadow: none !important;
+    border: 1px solid #cbd5e1 !important;
+    background: #ffffff !important;
+  }
+}

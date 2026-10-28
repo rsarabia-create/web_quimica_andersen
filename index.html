@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulació Inorgànica 3r d'ESO | QuimiESO</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen text-slate-800 antialiased selection:bg-sky-500 selection:text-white">
+
+  <!-- ======================================================================
+       Capçalera Principal (Header)
+       ====================================================================== -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logotip i Títol -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('inici')">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-600 via-teal-500 to-indigo-600 flex items-center justify-center text-white text-xl shadow-md shadow-sky-500/20">
+            ⚗️
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-black text-xl tracking-tight bg-gradient-to-r from-sky-700 to-teal-700 bg-clip-text text-transparent">QuimiESO</span>
+              <span class="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider bg-sky-100 text-sky-800 rounded-md">3r ESO</span>
+            </div>
+            <p class="text-[11px] text-slate-500 font-medium">Formulació i Nomenclatura Inorgànica</p>
+          </div>
+        </div>
+
+        <!-- Botons auxiliars (Sò, Imprimir, Llicència) -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button onclick="openLicenseModal()" class="px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-colors flex items-center gap-1.5" title="Drets d'Autor i Llicència Creative Commons">
+            📜 Llicència CC
+          </button>
+          <button id="btn-audio-toggle" onclick="toggleAudio()" class="px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-sky-800 border border-slate-200 transition-colors flex items-center gap-1.5" title="Activa o desactiva els efectes de so">
+            🔊 Sons: Activats
+          </button>
+          <button onclick="window.print()" class="px-3 py-1.5 text-xs font-semibold rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 transition-colors hidden sm:flex items-center gap-1.5" title="Imprimir resum">
+            🖨️ Imprimir Resum
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de Navegació de Pestanyes -->
+      <nav class="flex space-x-1 sm:space-x-3 overflow-x-auto py-2 border-t border-slate-100 text-sm no-scrollbar">
+        <button onclick="switchTab('inici')" data-tab="inici" class="nav-tab active px-3 py-2 rounded-lg text-sky-600 whitespace-nowrap">
+          🏠 Inici
+        </button>
+        <button onclick="switchTab('teoria')" data-tab="teoria" class="nav-tab px-3 py-2 rounded-lg text-slate-600 whitespace-nowrap">
+          📖 Teoria i Regles
+        </button>
+        <button onclick="switchTab('laboratori')" data-tab="laboratori" class="nav-tab px-3 py-2 rounded-lg text-slate-600 whitespace-nowrap">
+          🔬 Laboratori Formulador
+        </button>
+        <button onclick="switchTab('atomic')" data-tab="atomic" class="nav-tab px-3 py-2 rounded-lg text-slate-600 whitespace-nowrap">
+          ⚛️ Models i Orbitals
+        </button>
+        <button onclick="switchTab('valencies')" data-tab="valencies" class="nav-tab px-3 py-2 rounded-lg text-slate-600 whitespace-nowrap">
+          🗺️ Valències Clau
+        </button>
+        <button onclick="switchTab('joc')" data-tab="joc" class="nav-tab px-3 py-2 rounded-lg text-slate-600 whitespace-nowrap">
+          🎮 Joc de Pràctica
+        </button>
+        <button onclick="switchTab('reforc')" data-tab="reforc" class="nav-tab px-3 py-2 rounded-lg text-slate-600 whitespace-nowrap">
+          🛟 Reforç Pas a Pas
+        </button>
+        <button onclick="switchTab('ampliacio')" data-tab="ampliacio" class="nav-tab px-3 py-2 rounded-lg text-slate-600 whitespace-nowrap">
+          🚀 Ampliació (4t ESO)
+        </button>
+        <button onclick="switchTab('flashcards')" data-tab="flashcards" class="nav-tab px-3 py-2 rounded-lg text-slate-600 whitespace-nowrap">
+          🗂️ Flashcards
+        </button>
+        <button onclick="switchTab('cercador')" data-tab="cercador" class="nav-tab px-3 py-2 rounded-lg text-slate-600 whitespace-nowrap">
+          🔍 Cercador
+        </button>
+        <button onclick="switchTab('resum')" data-tab="resum" class="nav-tab px-3 py-2 rounded-lg text-slate-600 whitespace-nowrap">
+          📄 Xitxeta de 3r ESO
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       Contingut Principal de l'Aplicació
+       ====================================================================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- ==================================================================
+         1. PESTANYA: INICI
+         ================================================================== -->
+    <section id="pane-inici" class="tab-pane space-y-10">
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-700 via-sky-800 to-indigo-900 text-white p-8 sm:p-12 shadow-2xl">
+        <div class="absolute -right-10 -bottom-10 opacity-15 text-9xl select-none font-mono">H₂O</div>
+        <div class="relative z-10 max-w-2xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 text-sky-200 text-xs font-semibold backdrop-blur-md mb-4 border border-sky-400/30">
+            <span>⚛️</span> Física i Química • 3r d'ESO
+          </div>
+          <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+            Aprèn formulació inorgànica sense complicar-te la vida!
+          </h1>
+          <p class="mt-4 text-base sm:text-lg text-sky-100 leading-relaxed">
+            Una guia visual, interactiva i 100% en català adaptada exactament al que et demanaran als exàmens de 3r d'ESO: compostos binaris, òxids, hidrurs, sals i les dues nomenclatures oficials de la IUPAC.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-4">
+            <button onclick="switchTab('laboratori')" class="px-6 py-3.5 bg-white text-sky-800 hover:bg-sky-50 font-bold rounded-2xl shadow-lg transition-transform transform hover:scale-105 flex items-center gap-2">
+              <span>🔬</span> Prova el Laboratori Formulador
+            </button>
+            <button onclick="switchTab('joc')" class="px-6 py-3.5 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-2xl border border-sky-400/40 transition-transform transform hover:scale-105 flex items-center gap-2">
+              <span>🎮</span> Posa't a prova al Joc
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Les 3 Regles d'Or que has de saber per a 3r d'ESO -->
+      <div>
+        <div class="text-center max-w-xl mx-auto mb-8">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800">Les 3 Regles d'Or de la Formulació</h2>
+          <p class="text-slate-600 text-sm mt-1">Si entens aquests tres passos, aprovaràs la formulació amb nota.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Regla 1 -->
+          <div class="glass-panel p-6 rounded-3xl border-2 border-sky-100 hover:border-sky-300 transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center text-xl font-black mb-4">
+              1
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Composició Binària</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Tots els compostos de 3r d'ESO estan formats per <strong>dos elements</strong> (compostos binaris). A l'esquerra s'escriu el més metàl·lic (positiu) i a la dreta el no-metall o oxigen (negatiu).
+            </p>
+            <div class="mt-4 p-3 bg-sky-50 rounded-xl text-xs font-mono text-sky-900">
+              Ex: Na⁺ (metall) + Cl⁻ (no-metall) ➔ <strong>NaCl</strong>
+            </div>
+          </div>
+
+          <!-- Regla 2 -->
+          <div class="glass-panel p-6 rounded-3xl border-2 border-teal-100 hover:border-teal-300 transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center text-xl font-black mb-4">
+              2
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">La Regla del Creuament</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Les càrregues elèctriques es creuen i passen a ser els <strong>subíndexs</strong> de l'altre element (sense signe). La suma total de càrregues sempre és zero!
+            </p>
+            <div class="mt-4 p-3 bg-teal-50 rounded-xl text-xs font-mono text-teal-900">
+              Ex: Fe<sup>3+</sup> i O<sup>2-</sup> ➔ <strong>Fe₂O₃</strong>
+            </div>
+          </div>
+
+          <!-- Regla 3 -->
+          <div class="glass-panel p-6 rounded-3xl border-2 border-indigo-100 hover:border-indigo-300 transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xl font-black mb-4">
+              3
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Simplificació Obligatòria</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Si tots els subíndexs es poden dividir per un mateix nombre (2, 3 o 4), <strong>s'han de simplificar</strong> sempre a la seva expressió mínima!
+            </p>
+            <div class="mt-4 p-3 bg-indigo-50 rounded-xl text-xs font-mono text-indigo-900">
+              Ex: Ca₂O₂ ➔ dividim entre 2 ➔ <strong>CaO</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nomenclatures oficials de la IUPAC -->
+      <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-200">
+        <h3 class="text-xl font-extrabold text-slate-800 mb-4 flex items-center gap-2">
+          <span>🏷️</span> Quines dues maneres hi ha d'anomenar els compostos a 3r d'ESO?
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold uppercase tracking-wider text-sky-600 bg-sky-50 px-2.5 py-1 rounded-md">
+              A. Sistemàtica (Prefixos multiplicadors)
+            </span>
+            <h4 class="text-base font-bold text-slate-900 mt-3 mb-1">Molt senzilla: només llegeixes el que veus!</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Es llegeix de dreta a esquerra utilitzant els prefixos grecs: <strong>mono-</strong> (1), <strong>di-</strong> (2), <strong>tri-</strong> (3), <strong>tetra-</strong> (4), <strong>penta-</strong> (5), <strong>hepta-</strong> (7).
+            </p>
+            <div class="mt-3 p-3 bg-slate-50 rounded-xl text-xs font-mono text-slate-700">
+              • CO₂ ➔ <strong>Di</strong>òxid de carboni<br>
+              • Fe₂O₃ ➔ <strong>Tri</strong>òxid de <strong>di</strong>ferro
+            </div>
+          </div>
+
+          <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+              B. Nomenclatura de Stock (Nombres romans)
+            </span>
+            <h4 class="text-base font-bold text-slate-900 mt-3 mb-1">S'indica la valència entre parèntesis... però només si cal!</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Es diu el nom del grup ("òxid de...", "clorur de...") i s'escriu la valència del metall en <strong>nombres romans</strong> entre parèntesis. <span class="text-rose-600 font-bold">ALERTA:</span> Si el metall només té UNA valència possible (com Na, Ca o Al), <strong>MAI</strong> es posa el nombre romà!
+            </p>
+            <div class="mt-3 p-3 bg-slate-50 rounded-xl text-xs font-mono text-slate-700">
+              • Fe₂O₃ ➔ Òxid de ferro<strong>(III)</strong> (el ferro té valència 2 i 3)<br>
+              • Al₂O₃ ➔ Òxid d'alumini <span class="text-rose-500 font-bold">(MAI òxid d'alumini(III)!)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         2. PESTANYA: TEORIA I REGLES (3r ESO)
+         ================================================================== -->
+    <section id="pane-teoria" class="tab-pane hidden space-y-8">
+      <div class="border-b border-slate-200 pb-4">
+        <h2 class="text-3xl font-black text-slate-900">Guia de Teoria per a 3r d'ESO</h2>
+        <p class="text-slate-600 text-sm mt-1">Tot el temari oficial explicat pas a pas amb taules clares i exemples.</p>
+      </div>
+
+      <!-- Acordió / Seccions de teoria -->
+      <div class="space-y-6">
+        <!-- 1. Substàncies simples -->
+        <div class="glass-panel p-6 rounded-3xl">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-8 h-8 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold">1</span>
+            <h3 class="text-xl font-bold text-slate-900">Substàncies Simples (Elements purs)</h3>
+          </div>
+          <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+            Són substàncies formades per àtoms d'un sol element. Els metalls s'escriuen solitaris (Fe, Cu, Na), mentre que alguns gasos no-metalls formen molècules diatòmiques (amb subíndex 2) a la natura:
+          </p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+            <div class="p-3 bg-white rounded-xl border border-slate-200 text-center">
+              <span class="font-bold font-mono text-sky-700 text-lg">H₂</span>
+              <div class="text-xs text-slate-500 mt-1">Dihidrogen (Hidrogen)</div>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-slate-200 text-center">
+              <span class="font-bold font-mono text-sky-700 text-lg">O₂</span>
+              <div class="text-xs text-slate-500 mt-1">Dioxigen (Oxigen)</div>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-slate-200 text-center">
+              <span class="font-bold font-mono text-sky-700 text-lg">N₂</span>
+              <div class="text-xs text-slate-500 mt-1">Dinitrogen (Nitrogen)</div>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-slate-200 text-center">
+              <span class="font-bold font-mono text-sky-700 text-lg">Cl₂</span>
+              <div class="text-xs text-slate-500 mt-1">Diclor (Clor)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Òxids -->
+        <div class="glass-panel p-6 rounded-3xl">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-8 h-8 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center font-bold">2</span>
+            <h3 class="text-xl font-bold text-slate-900">Òxids (Metall o No-metall + Oxigen)</h3>
+          </div>
+          <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+            Són compostos formats per un element i <strong>oxigen</strong>. L'oxigen sempre actua amb valència <strong>-2</strong> (per això sempre passa un 2 al company).
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm bg-white rounded-2xl overflow-hidden border border-slate-200">
+              <thead class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200 text-xs uppercase">
+                <tr>
+                  <th class="p-3">Fórmula</th>
+                  <th class="p-3">Ions inicials</th>
+                  <th class="p-3">Nomenclatura Sistemàtica</th>
+                  <th class="p-3">Nomenclatura de Stock</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 font-mono text-xs sm:text-sm">
+                <tr>
+                  <td class="p-3 font-bold text-sky-700">Na₂O</td>
+                  <td class="p-3 text-slate-500">Na⁺¹ + O⁻²</td>
+                  <td class="p-3 font-sans">Òxid de disodi</td>
+                  <td class="p-3 font-sans">Òxid de sodi <span class="text-xs text-emerald-600 font-bold">(Sense I)</span></td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-sky-700">CaO</td>
+                  <td class="p-3 text-slate-500">Ca⁺² + O⁻² ➔ Ca₂O₂</td>
+                  <td class="p-3 font-sans">Monòxid de calci</td>
+                  <td class="p-3 font-sans">Òxid de calci <span class="text-xs text-emerald-600 font-bold">(Sense II)</span></td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-sky-700">FeO</td>
+                  <td class="p-3 text-slate-500">Fe⁺² + O⁻² ➔ Fe₂O₂</td>
+                  <td class="p-3 font-sans">Monòxid de ferro</td>
+                  <td class="p-3 font-sans font-bold text-indigo-700">Òxid de ferro(II)</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-sky-700">Fe₂O₃</td>
+                  <td class="p-3 text-slate-500">Fe⁺³ + O⁻²</td>
+                  <td class="p-3 font-sans">Triòxid de diferro</td>
+                  <td class="p-3 font-sans font-bold text-indigo-700">Òxid de ferro(III)</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-sky-700">CO₂</td>
+                  <td class="p-3 text-slate-500">C⁺⁴ + O⁻² ➔ C₂O₄</td>
+                  <td class="p-3 font-sans">Diòxid de carboni</td>
+                  <td class="p-3 font-sans">Òxid de carboni(IV)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 3. Hidrurs -->
+        <div class="glass-panel p-6 rounded-3xl">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">3</span>
+            <h3 class="text-xl font-bold text-slate-900">Hidrurs (Compostos amb Hidrogen)</h3>
+          </div>
+          <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+            L'hidrogen pot combinar-se amb metalls (l'H té càrrega -1) o amb no-metalls (l'H té càrrega +1).
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 bg-white rounded-2xl border border-slate-200">
+              <h4 class="font-bold text-slate-800 text-sm mb-2">A. Hidrurs metàl·lics (Metall + H⁻¹)</h4>
+              <p class="text-xs text-slate-600 mb-2">L'hidrogen s'escriu a la dreta:</p>
+              <ul class="text-xs space-y-1.5 text-slate-700 font-mono">
+                <li>• <strong>NaH:</strong> Hidrur de sodi</li>
+                <li>• <strong>CaH₂:</strong> Dihidrur de calci / Hidrur de calci</li>
+                <li>• <strong>FeH₃:</strong> Trihidrur de ferro / Hidrur de ferro(III)</li>
+              </ul>
+            </div>
+
+            <div class="p-4 bg-white rounded-2xl border border-slate-200">
+              <h4 class="font-bold text-slate-800 text-sm mb-2">B. Hidràcids i compostos especials</h4>
+              <p class="text-xs text-slate-600 mb-2">Amb halògens (H⁺¹ a l'esquerra) i noms tradicionals:</p>
+              <ul class="text-xs space-y-1.5 text-slate-700 font-mono">
+                <li>• <strong>HCl:</strong> Clorur d'hidrogen (àcid clorhídric en dissolució)</li>
+                <li>• <strong>H₂S:</strong> Sulfur de dihidrogen (àcid sulfhídric)</li>
+                <li>• <strong>NH₃:</strong> Amoníac (o trihidrur de nitrogen)</li>
+                <li>• <strong>CH₄:</strong> Metà (o tetrahidrur de carboni)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Sals Binàries -->
+        <div class="glass-panel p-6 rounded-3xl">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold">4</span>
+            <h3 class="text-xl font-bold text-slate-900">Sals Binàries (Metall + No-metall)</h3>
+          </div>
+          <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+            Es formen combinant un metall amb un no-metall. El no-metall pren la terminació <strong>-ur</strong> (clorur, fluorur, bromur, iodur, sulfur).
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm bg-white rounded-2xl overflow-hidden border border-slate-200">
+              <thead class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200 text-xs uppercase">
+                <tr>
+                  <th class="p-3">Fórmula</th>
+                  <th class="p-3">Ions</th>
+                  <th class="p-3">Sistemàtica</th>
+                  <th class="p-3">Stock</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 font-mono text-xs sm:text-sm">
+                <tr>
+                  <td class="p-3 font-bold text-purple-700">NaCl</td>
+                  <td class="p-3 text-slate-500">Na⁺¹ + Cl⁻¹</td>
+                  <td class="p-3 font-sans">Clorur de sodi</td>
+                  <td class="p-3 font-sans">Clorur de sodi</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-purple-700">CaCl₂</td>
+                  <td class="p-3 text-slate-500">Ca⁺² + Cl⁻¹</td>
+                  <td class="p-3 font-sans">Diclorur de calci</td>
+                  <td class="p-3 font-sans">Clorur de calci</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-purple-700">FeCl₃</td>
+                  <td class="p-3 text-slate-500">Fe⁺³ + Cl⁻¹</td>
+                  <td class="p-3 font-sans">Triclorur de ferro</td>
+                  <td class="p-3 font-sans font-bold text-indigo-700">Clorur de ferro(III)</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-purple-700">Cu₂S</td>
+                  <td class="p-3 text-slate-500">Cu⁺¹ + S⁻²</td>
+                  <td class="p-3 font-sans">Sulfur de dicoure</td>
+                  <td class="p-3 font-sans font-bold text-indigo-700">Sulfur de coure(I)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         3. PESTANYA: LABORATORI FORMULADOR
+         ================================================================== -->
+    <section id="pane-laboratori" class="tab-pane hidden space-y-8">
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="text-3xl font-black text-slate-900">Laboratori Virtual de Formulació</h2>
+        <p class="text-slate-600 text-sm mt-1">
+          Tria un metall (catió) i un no-metall/oxigen (anió). L'aplicació et farà el creuament de càrregues en directe, la simplificació matemàtica i et generarà els noms correctes.
+        </p>
+      </div>
+
+      <!-- Selectors d'Ions -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Cations (Metalls) -->
+        <div class="glass-panel p-6 rounded-3xl">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-sm font-bold text-sky-800 flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-sky-500"></span> 1. Tria el Catió (Metall positiu)
+            </span>
+            <span class="text-xs text-slate-400 font-medium">Càrrega elèctrica positiva</span>
+          </div>
+          <div id="cation-selector" class="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+            <!-- Renderitzat dinàmic per app.js -->
+          </div>
+        </div>
+
+        <!-- Anions (No-metalls / Oxigen) -->
+        <div class="glass-panel p-6 rounded-3xl">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-sm font-bold text-emerald-800 flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-emerald-500"></span> 2. Tria l'Anió (Negatiu)
+            </span>
+            <span class="text-xs text-slate-400 font-medium">Òxid, hidrur o sals</span>
+          </div>
+          <div id="anion-selector" class="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+            <!-- Renderitzat dinàmic per app.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Resultat Dinàmic del Laboratori -->
+      <div id="lab-result-display">
+        <!-- Renderitzat dinàmic per app.js -->
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         NOVA PESTANYA: MODELS ATÒMICS I ORBITALS ELECTRÒNICS
+         ================================================================== -->
+    <section id="pane-atomic" class="tab-pane hidden space-y-12">
+      <!-- Capçalera de la Secció -->
+      <div class="border-b border-slate-200 pb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold mb-2">
+          <span>⚛️</span> Estructura Atòmica • 3r d'ESO
+        </div>
+        <h2 class="text-3xl font-black text-slate-900">Models Atòmics i Orbitals Electrònics</h2>
+        <p class="text-slate-600 text-sm mt-1 max-w-3xl leading-relaxed">
+          Com sabem com és un àtom si és invisible a simple vista? Descobreix la fascinant evolució històrica dels models atòmics, com s'organitzen els electrons en orbitals segons la mecànica quàntica i com aquesta configuració electrònica determina directament les <strong>valències de la formulació</strong>.
+        </p>
+      </div>
+
+      <!-- 1. Cronologia dels 5 Models Atòmics -->
+      <div>
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="text-2xl font-black text-slate-900">Evolució dels Models Atòmics</h3>
+            <p class="text-xs text-slate-500 mt-0.5">De l'esfera massissa de Dalton fins als orbitals de Schrödinger</p>
+          </div>
+          <span class="text-xs font-semibold px-3 py-1 bg-slate-100 text-slate-600 rounded-full">5 Teories</span>
+        </div>
+        <div id="theories-timeline" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Renderitzat per app.js amb gràfics SVG -->
+        </div>
+      </div>
+
+      <!-- 2. Orbitals Electrònics (s, p, d) i Diagrama de Moeller -->
+      <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-200 space-y-6">
+        <div class="border-b border-slate-200 pb-4">
+          <h3 class="text-2xl font-black text-slate-900">Què és exactament un Orbital Electrònic?</h3>
+          <p class="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed">
+            A diferència de les antigues òrbites circulars de Bohr (similars a planetes), un <strong>orbital</strong> és una zona tridimensional al voltant del nucli on la probabilitat de trobar l'electró és molt elevada (superior al 90%).
+          </p>
+        </div>
+
+        <!-- Graella de formes d'orbitals -->
+        <div id="orbitals-shapes" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <!-- Renderitzat per app.js -->
+        </div>
+
+        <!-- Diagrama de Moeller i Regla d'Aufbau -->
+        <div class="mt-8 pt-6 border-t border-slate-200">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-sky-700 bg-sky-50 px-2.5 py-1 rounded-md">Regla de les Diagonals</span>
+              <h4 class="text-xl font-bold text-slate-900 mt-2 mb-2">Com s'omplen els orbitals? (Diagrama de Moeller)</h4>
+              <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                Els electrons van ocupant els orbitals començant pel de <strong>menor energia</strong> (el més proper al nucli) seguint les fletxes diagonals del diagrama de Moeller:
+              </p>
+              <div class="p-3 bg-slate-100 rounded-xl font-mono text-xs text-sky-800 font-bold mb-3">
+                1s ➔ 2s ➔ 2p ➔ 3s ➔ 3p ➔ 4s ➔ 3d ➔ 4p...
+              </div>
+              <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+                <li>Capacitat màxima: orbital <strong>s</strong> (2 e⁻), <strong>p</strong> (6 e⁻), <strong>d</strong> (10 e⁻), <strong>f</strong> (14 e⁻).</li>
+                <li><strong>Principi d'exclusió de Pauli:</strong> a cada orbital hi caben com a màxim 2 electrons amb espins oposats (↑↓).</li>
+                <li><strong>Regla de Hund:</strong> en orbitals d'igual energia (com px, py, pz), els electrons entren primer desaparellats (↑)(↑)(↑).</li>
+              </ul>
+            </div>
+            <!-- Gràfic interactiu de Moeller -->
+            <div id="moeller-display" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center">
+              <!-- Renderitzat per app.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Simulador de Configuracions Electròniques i València -->
+      <div class="glass-panel p-6 sm:p-8 rounded-3xl border-2 border-indigo-100">
+        <div class="max-w-2xl mb-6">
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-md">Simulador Interactiu</span>
+          <h3 class="text-2xl font-black text-slate-900 mt-2">Calculadora de Configuració Electrònica</h3>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1">
+            Tria o escriu el nombre atòmic Z d'un element per veure la seva configuració automàtica i com determina els seus electrons de valència:
+          </p>
+        </div>
+
+        <!-- Selectors ràpids d'elements clau -->
+        <div class="flex items-center gap-2 flex-wrap mb-4">
+          <span class="text-xs font-bold text-slate-500 mr-2">Elements ràpids:</span>
+          <button onclick="calculateConfig(1)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">H (Z=1)</button>
+          <button onclick="calculateConfig(6)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">C (Z=6)</button>
+          <button onclick="calculateConfig(7)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">N (Z=7)</button>
+          <button onclick="calculateConfig(8)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">O (Z=8)</button>
+          <button onclick="calculateConfig(11)" class="px-2.5 py-1 text-xs rounded-lg bg-sky-600 text-white font-bold">Na (Z=11)</button>
+          <button onclick="calculateConfig(12)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Mg (Z=12)</button>
+          <button onclick="calculateConfig(13)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Al (Z=13)</button>
+          <button onclick="calculateConfig(17)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Cl (Z=17)</button>
+          <button onclick="calculateConfig(20)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Ca (Z=20)</button>
+          <button onclick="calculateConfig(26)" class="px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-sky-50 border border-slate-200 font-bold text-slate-700">Fe (Z=26)</button>
+        </div>
+
+        <div class="flex items-center gap-3 max-w-xs mb-6">
+          <label for="z-input" class="text-xs font-bold text-slate-700 shrink-0">O escriu Z (1 a 30):</label>
+          <input type="number" id="z-input" min="1" max="30" value="11" onchange="calculateConfig(this.value)" class="w-20 px-3 py-1.5 rounded-xl border border-slate-300 font-mono text-sm font-bold text-center focus:outline-hidden focus:border-sky-500">
+        </div>
+
+        <!-- Resultat de la configuració -->
+        <div id="config-result">
+          <!-- Renderitzat per app.js -->
+        </div>
+      </div>
+
+      <!-- 4. Banc d'Exercicis d'Orbitals (TOTS AMB IMATGE) -->
+      <div>
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="text-2xl font-black text-slate-900">Exercicis de Teories Atòmiques i Orbitals</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Posa a prova la teva comprensió física de l'àtom (amb suport visual a cada pregunta)</p>
+          </div>
+          <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            🎨 Imatge a cada exercici
+          </span>
+        </div>
+        <div id="atomic-exercises-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Renderitzat per app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         4. PESTANYA: TAULA I VALÈNCIES
+         ================================================================== -->
+    <section id="pane-valencies" class="tab-pane hidden space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
+        <div>
+          <h2 class="text-3xl font-black text-slate-900">Valències Clau de 3r d'ESO</h2>
+          <p class="text-slate-600 text-sm mt-1">
+            Els elements imprescindibles que necessites aprendre. Fes clic sobre qualsevol element per veure detalls i consells mnemotècnics.
+          </p>
+        </div>
+
+        <!-- Filtres -->
+        <div class="flex flex-wrap gap-2 text-xs font-semibold">
+          <button onclick="filterElements('all', this)" class="filter-btn px-3 py-1.5 rounded-xl bg-sky-600 text-white shadow-sm transition-all">
+            Tots
+          </button>
+          <button onclick="filterElements('metalls', this)" class="filter-btn px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-all">
+            Metalls
+          </button>
+          <button onclick="filterElements('transicio', this)" class="filter-btn px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-all">
+            Transició (Fe, Cu...)
+          </button>
+          <button onclick="filterElements('nometalls', this)" class="filter-btn px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-all">
+            No-metalls i Halògens
+          </button>
+        </div>
+      </div>
+
+      <!-- Graella d'elements -->
+      <div id="elements-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <!-- Renderitzat per app.js -->
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         5. PESTANYA: JOC D'ENTRENAMENT / TEST
+         ================================================================== -->
+    <section id="pane-joc" class="tab-pane hidden space-y-8">
+      <div class="text-center max-w-xl mx-auto">
+        <h2 class="text-3xl font-black text-slate-900">Joc d'Entrenament per a l'Examen</h2>
+        <p class="text-slate-600 text-sm mt-1">
+          Posa a prova la teva ratxa d'encerts. Cada resposta inclou l'explicació detallada de per què és correcta o incorrecta.
+        </p>
+      </div>
+
+      <!-- Contenidor del Quiz interactiu -->
+      <div id="quiz-container">
+        <!-- Renderitzat dinàmicament per app.js -->
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         NOVA PESTANYA: APARTAT DE REFORÇ (PAS A PAS)
+         ================================================================== -->
+    <section id="pane-reforc" class="tab-pane hidden space-y-10">
+      <!-- Capçalera Reforç -->
+      <div class="border-b border-slate-200 pb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold mb-2 border border-amber-200">
+          <span>🛟</span> Suport Pedagògic • 3r d'ESO
+        </div>
+        <h2 class="text-3xl font-black text-slate-900">Apartat de Reforç: Pas a Pas</h2>
+        <p class="text-slate-600 text-sm mt-1 max-w-3xl leading-relaxed">
+          T'encalles amb la formulació? Tranquil/a! La química inorgànica sembla un trencaclosques al principi, però segueix unes regles molt lògiques. Aquí tens els 5 errors més típics d'examen per no caure a la trampa i exercicis guiats amb pistes visuals.
+        </p>
+      </div>
+
+      <!-- 1. Top 5 Errors d'Examen -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-2xl font-black text-slate-900">Els 5 Errors d'Examen Més Freqüents a 3r d'ESO</h3>
+          <span class="text-xs font-bold text-rose-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-200">
+            ⚠️ Evita aquestes faltes
+          </span>
+        </div>
+        <div id="reforc-errors" class="space-y-4">
+          <!-- Renderitzat per app.js -->
+        </div>
+      </div>
+
+      <!-- 2. Exercicis Guiats de Reforç (AMB IMATGE A CADA EXERCICI) -->
+      <div>
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="text-2xl font-black text-slate-900">Exercicis Guiats amb Resolució Visual</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Clica a "Mostra la Pista" o "Veure Pas a Pas" per aprendre el raonament</p>
+          </div>
+          <span class="text-xs font-bold text-amber-700 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+            💡 Resolució guiada
+          </span>
+        </div>
+        <div id="reforc-exercises" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Renderitzat per app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         NOVA PESTANYA: APARTAT D'AMPLIACIÓ (PONT A 4t ESO)
+         ================================================================== -->
+    <section id="pane-ampliacio" class="tab-pane hidden space-y-10">
+      <!-- Capçalera Ampliació -->
+      <div class="border-b border-slate-200 pb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold mb-2 border border-indigo-200">
+          <span>🚀</span> Nivell Avançat • Pont a 4t d'ESO
+        </div>
+        <h2 class="text-3xl font-black text-slate-900">Apartat d'Ampliació: Compostos Ternaris</h2>
+        <p class="text-slate-600 text-sm mt-1 max-w-3xl leading-relaxed">
+          Vols saber què s'estudia al curs vinent? A 4t d'ESO i a Batxillerat s'afegeixen nous compostos químics fascinants com els <strong>hidròxids</strong> (bases com la sosa càustica), els <strong>peròxids</strong> (com l'aigua oxigenada) i els <strong>oxoàcids</strong> (com l'àcid sulfúric).
+        </p>
+      </div>
+
+      <!-- 1. Temes d'Ampliació -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-2xl font-black text-slate-900">Noves Famílies Químiques</h3>
+          <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
+            3 Conceptes Clau
+          </span>
+        </div>
+        <div id="ampliacio-topics" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Renderitzat per app.js -->
+        </div>
+      </div>
+
+      <!-- 2. Reptes d'Ampliació (AMB IMATGE A CADA EXERCICI) -->
+      <div>
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="text-2xl font-black text-slate-900">Reptes Científics d'Ampliació</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Posa a prova el teu nivell amb compostos ternaris reals (amb suport gràfic)</p>
+          </div>
+          <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
+            🧠 Reptes 4t ESO
+          </span>
+        </div>
+        <div id="ampliacio-exercises" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Renderitzat per app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         6. PESTANYA: FLASHCARDS
+         ================================================================== -->
+    <section id="pane-flashcards" class="tab-pane hidden space-y-8">
+      <div class="text-center max-w-xl mx-auto">
+        <h2 class="text-3xl font-black text-slate-900">Targetes de Memòria 3D</h2>
+        <p class="text-slate-600 text-sm mt-1">
+          La manera més ràpida de memoritzar els símbols i les valències abans d'un control.
+        </p>
+        <div class="mt-3 text-xs font-bold text-sky-700 bg-sky-50 inline-block px-3 py-1 rounded-full border border-sky-100" id="flashcard-counter">
+          1 de 12
+        </div>
+      </div>
+
+      <!-- Contenidor Flashcard 3D -->
+      <div id="flashcard-container" class="py-4">
+        <!-- Renderitzat per app.js -->
+      </div>
+
+      <!-- Controls de navegació Flashcards -->
+      <div class="flex items-center justify-center gap-4">
+        <button onclick="prevFlashcard()" class="px-5 py-3 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 font-bold border border-slate-200 shadow-sm transition-all flex items-center gap-2">
+          ⬅ Anterior
+        </button>
+        <button onclick="toggleCardFlip()" class="px-6 py-3 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-bold shadow-md shadow-sky-500/25 transition-all">
+          🔄 Girar Targeta
+        </button>
+        <button onclick="nextFlashcard()" class="px-5 py-3 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 font-bold border border-slate-200 shadow-sm transition-all flex items-center gap-2">
+          Següent ➔
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         7. PESTANYA: CERCADOR DE FÒRMULES
+         ================================================================== -->
+    <section id="pane-cercador" class="tab-pane hidden space-y-8">
+      <div class="text-center max-w-xl mx-auto">
+        <h2 class="text-3xl font-black text-slate-900">Cercador Ràpid de Compostos</h2>
+        <p class="text-slate-600 text-sm mt-1">
+          Escriu qualsevol fòrmula (com "CO2", "Fe2O3", "NaCl") o nom en català per veure la seva fitxa completa.
+        </p>
+      </div>
+
+      <!-- Input de cerca -->
+      <div class="max-w-xl mx-auto">
+        <div class="relative">
+          <input type="text" id="formula-search-input" placeholder="Ex: CO2, Fe2O3, òxid, ferro, clorur..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border-2 border-slate-200 focus:border-sky-500 focus:outline-hidden shadow-sm text-base text-slate-800 placeholder-slate-400 font-medium transition-colors">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-slate-400">🔍</span>
+        </div>
+      </div>
+
+      <!-- Resultats de cerca -->
+      <div id="search-results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Renderitzat per app.js -->
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         8. PESTANYA: XITXETA / RESUM IMPRIMIBLE
+         ================================================================== -->
+    <section id="pane-resum" class="tab-pane hidden space-y-8">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+        <div>
+          <h2 class="text-3xl font-black text-slate-900">Xitxeta Oficial de 3r d'ESO</h2>
+          <p class="text-slate-600 text-sm mt-1">Resum complet per tenir a mà en una sola pàgina.</p>
+        </div>
+        <button onclick="window.print()" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl text-xs flex items-center gap-2 transition-colors">
+          🖨️ Descarregar / Imprimir PDF
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Taula de Valències típiques -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+          <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <span>📋</span> Valències dels Metalls (Més habituals)
+          </h3>
+          <table class="w-full text-xs font-mono">
+            <thead class="bg-slate-50 text-slate-600 font-bold border-b">
+              <tr>
+                <th class="p-2 text-left">Elements</th>
+                <th class="p-2 text-center">València</th>
+                <th class="p-2 text-left">Stock</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr><td class="p-2">Li, Na, K, Ag</td><td class="p-2 text-center font-bold text-sky-600">+1</td><td class="p-2 font-sans text-emerald-600 font-semibold">Sense (I)</td></tr>
+              <tr><td class="p-2">Be, Mg, Ca, Ba, Zn, Cd</td><td class="p-2 text-center font-bold text-sky-600">+2</td><td class="p-2 font-sans text-emerald-600 font-semibold">Sense (II)</td></tr>
+              <tr><td class="p-2">Al</td><td class="p-2 text-center font-bold text-sky-600">+3</td><td class="p-2 font-sans text-emerald-600 font-semibold">Sense (III)</td></tr>
+              <tr class="bg-amber-50/50"><td class="p-2 font-bold">Fe, Co, Ni</td><td class="p-2 text-center font-bold text-amber-700">+2, +3</td><td class="p-2 font-sans text-amber-800">Cal indicar (II) o (III)</td></tr>
+              <tr class="bg-amber-50/50"><td class="p-2 font-bold">Cu, Hg</td><td class="p-2 text-center font-bold text-amber-700">+1, +2</td><td class="p-2 font-sans text-amber-800">Cal indicar (I) o (II)</td></tr>
+              <tr class="bg-amber-50/50"><td class="p-2 font-bold">Sn, Pb, Pt</td><td class="p-2 text-center font-bold text-amber-700">+2, +4</td><td class="p-2 font-sans text-amber-800">Cal indicar (II) o (IV)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Valències No-metalls i Prefixos -->
+        <div class="space-y-6">
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+            <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+              <span>⚡</span> Valències negatives (a la dreta de la fórmula)
+            </h3>
+            <ul class="text-xs space-y-2 text-slate-700 font-mono">
+              <li class="p-2 rounded-lg bg-sky-50 flex justify-between">
+                <span>Halògens (F, Cl, Br, I)</span>
+                <span class="font-bold text-sky-700">-1 (fluorur, clorur...)</span>
+              </li>
+              <li class="p-2 rounded-lg bg-teal-50 flex justify-between">
+                <span>Oxigen (O) i Sofre (S)</span>
+                <span class="font-bold text-teal-700">-2 (òxid, sulfur)</span>
+              </li>
+              <li class="p-2 rounded-lg bg-indigo-50 flex justify-between">
+                <span>Nitrogen (N) i Fòsfor (P)</span>
+                <span class="font-bold text-indigo-700">-3 (nitrur, fosfur)</span>
+              </li>
+              <li class="p-2 rounded-lg bg-purple-50 flex justify-between">
+                <span>Hidrogen en hidrurs metàl·lics (H)</span>
+                <span class="font-bold text-purple-700">-1 (hidrur)</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+            <h3 class="text-base font-bold text-slate-900 mb-2 flex items-center gap-2">
+              <span>🔢</span> Prefixos multiplicadors IUPAC
+            </h3>
+            <div class="grid grid-cols-4 sm:grid-cols-7 gap-1 text-center font-mono text-xs">
+              <div class="p-2 bg-slate-100 rounded-lg"><strong class="block text-sky-600">1</strong>mono-</div>
+              <div class="p-2 bg-slate-100 rounded-lg"><strong class="block text-sky-600">2</strong>di-</div>
+              <div class="p-2 bg-slate-100 rounded-lg"><strong class="block text-sky-600">3</strong>tri-</div>
+              <div class="p-2 bg-slate-100 rounded-lg"><strong class="block text-sky-600">4</strong>tetra-</div>
+              <div class="p-2 bg-slate-100 rounded-lg"><strong class="block text-sky-600">5</strong>penta-</div>
+              <div class="p-2 bg-slate-100 rounded-lg"><strong class="block text-sky-600">6</strong>hexa-</div>
+              <div class="p-2 bg-slate-100 rounded-lg"><strong class="block text-sky-600">7</strong>hepta-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
+       Modal d'Informació de l'Element
+       ====================================================================== -->
+  <div id="element-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative animate-fadeIn border border-slate-100">
+      <button onclick="closeElementModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 font-bold flex items-center justify-center text-sm transition-colors">
+        ✕
+      </button>
+      <div id="element-modal-content">
+        <!-- Renderitzat per app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Modal de Llicències i Drets d'Autor
+       ====================================================================== -->
+  <div id="license-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative animate-fadeIn border border-slate-100">
+      <button onclick="closeLicenseModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 font-bold flex items-center justify-center text-sm transition-colors">
+        ✕
+      </button>
+      <div id="license-modal-content">
+        <!-- Renderitzat per app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Peu de Pàgina (Footer) amb Llicències de Drets d'Autor
+       ====================================================================== -->
+  <footer class="mt-20 border-t border-slate-200 bg-white py-12 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 space-y-4">
+      <div class="flex items-center justify-center gap-2">
+        <span class="w-7 h-7 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold text-sm">⚗️</span>
+        <span class="font-extrabold text-slate-800 text-base">QuimiESO 3r • Formulació Inorgànica i Estructura Atòmica</span>
+      </div>
+
+      <p class="max-w-2xl mx-auto text-slate-600 leading-relaxed">
+        Recurs didàctic i interactiu en llengua catalana dissenyat per a l'assignatura de <strong>Física i Química de 3r d'ESO</strong> (LOMLOE / Generalitat de Catalunya) d'acord amb la nomenclatura de la IUPAC (Red Book 2005).
+      </p>
+
+      <!-- Badge de Llicència Creative Commons -->
+      <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-medium border border-slate-200">
+          <span>📜</span> Llicència <strong>CC BY-NC-SA 4.0</strong> (Ús Educatiu Lliure)
+        </div>
+        <button onclick="openLicenseModal()" class="text-sky-700 hover:text-sky-800 font-bold underline transition-colors">
+          Veure Drets d'Autor i Crèdits Pedagògics ➔
+        </button>
+      </div>
+
+      <p class="text-[11px] text-slate-400 pt-2 border-t border-slate-100 max-w-xl mx-auto">
+        Permesa la reproducció i difusió gratuïta per a qualsevol finalitat docent a aules i instituts. Prohibit l'ús comercial.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Carregar Dades i Scripts -->
+  <script src="svg-assets.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
